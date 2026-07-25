@@ -1,0 +1,137 @@
+:root{
+  --paper:#fbf7ef;
+  --paper-deep:#eee5d8;
+  --ink:#302b27;
+  --muted:#7a7068;
+  --line:rgba(55,44,35,.16);
+  --orange:#e98042;
+  --pink:#d76d80;
+  --blue:#7fa8c2;
+  --mint:#9bbba9;
+  --shadow:0 30px 80px rgba(57,44,34,.22);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  color:var(--ink);
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(255,255,255,.8),transparent 28%),
+    linear-gradient(135deg,#d2ccc2,#ebe6de 48%,#c9c3b8);
+}
+button,textarea{font:inherit}
+button{cursor:pointer}
+.app-shell{min-height:100vh;padding:14px 12px 36px}
+.topbar{
+  max-width:1080px;margin:0 auto 14px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.brand{display:flex;align-items:center;gap:14px;font-weight:700;letter-spacing:.06em}
+.brand-dots{
+  width:12px;height:12px;border-radius:50%;background:var(--orange);
+  box-shadow:17px 0 var(--blue),34px 0 var(--pink);
+  margin-right:34px;
+}
+.ghost-button,.page-nav button{
+  border:0;border-radius:999px;padding:11px 18px;
+  background:rgba(255,255,255,.7);color:var(--ink);
+  box-shadow:0 6px 20px rgba(55,42,31,.12);
+}
+.stage{max-width:1080px;margin:auto;perspective:1600px}
+.book{
+  position:relative;min-height:700px;overflow:hidden;
+  border-radius:18px 28px 28px 18px;
+  background:
+    linear-gradient(90deg,#e7ddcf 0,#fbf7ef 4%,#fffaf4 49.4%,#d7cab9 50%,#fffaf4 50.6%,#fbf7ef 96%,#e7ddcf 100%);
+  box-shadow:var(--shadow);
+  animation:openBook .8s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes openBook{
+  from{transform:rotateY(-14deg) scale(.97);opacity:.2}
+  to{transform:none;opacity:1}
+}
+.book::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;mix-blend-mode:multiply;
+  background:
+    repeating-linear-gradient(0deg,rgba(80,65,50,.035) 0 1px,transparent 1px 4px),
+    radial-gradient(circle at 20% 10%,rgba(110,85,60,.08),transparent 22%),
+    radial-gradient(circle at 80% 90%,rgba(110,85,60,.07),transparent 22%);
+}
+.binder-rings{
+  position:absolute;z-index:10;left:calc(50% - 8px);top:58px;bottom:58px;width:16px;
+  display:flex;flex-direction:column;justify-content:space-around;pointer-events:none;
+}
+.binder-rings span{
+  height:28px;border:3px solid rgba(78,72,66,.47);border-left:0;
+  border-radius:0 16px 16px 0;background:rgba(255,255,255,.25);
+}
+.page{
+  display:none;position:relative;z-index:2;min-height:700px;padding:64px 72px;
+  animation:pageIn .4s ease both;
+}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.spread{display:grid;grid-template-columns:1fr 1fr;gap:76px;min-height:570px;align-items:center}
+.single-page{max-width:760px;margin:auto;min-height:570px;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--muted);margin:0 0 18px}
+h1,h2{font-family:Georgia,"Times New Roman","Yu Mincho",serif;font-weight:500;letter-spacing:-.035em}
+h1{font-size:clamp(58px,8vw,96px);line-height:.86;margin:0}
+h2{font-size:clamp(34px,5vw,62px);line-height:1.12;margin:0 0 28px}
+.subtitle{font-size:15px;letter-spacing:.2em;text-transform:uppercase;margin-top:28px}
+.hand-note{font-family:"Comic Sans MS","Yu Gothic",sans-serif;color:var(--muted);transform:rotate(-2deg)}
+.cover-copy{display:flex;flex-direction:column;justify-content:space-between;min-height:450px}
+.art-panel{
+  min-height:470px;border-radius:48% 52% 46% 54% / 52% 48% 52% 48%;
+  background:
+    linear-gradient(rgba(255,255,255,.05),rgba(255,255,255,.05)),
+    url("../assets/art/art-01.jpg") center/cover;
+  box-shadow:inset 0 0 45px rgba(255,255,255,.44);
+  transform:rotate(-2deg);
+}
+.opening-copy{font-size:clamp(17px,2.1vw,24px);line-height:2.05}
+.quiet-copy{line-height:2;color:#514a45;border-left:3px solid var(--orange);padding-left:18px}
+label{display:block;font-size:14px;line-height:1.8;margin:0 0 23px}
+textarea{
+  display:block;width:100%;min-height:82px;margin-top:8px;padding:12px 4px;
+  border:0;border-bottom:1px solid var(--line);outline:none;resize:vertical;
+  color:var(--ink);background:transparent;line-height:1.7;
+}
+textarea:focus{border-color:var(--orange)}
+.writing-card,.prompt-card{
+  padding:28px;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.36);
+}
+.prompt{font-family:Georgia,"Yu Mincho",serif;font-size:clamp(27px,3.7vw,44px);line-height:1.42}
+.art-strip{
+  height:105px;margin-top:28px;border-radius:18px;
+  background:url("../assets/art/art-02.jpg") center 42%/cover;
+}
+.page-nav{
+  display:flex;justify-content:center;align-items:center;gap:13px;margin-top:18px;
+}
+.page-nav span{min-width:82px;text-align:center;font-size:12px;color:#5e5751}
+.page-nav button:disabled{opacity:.35;cursor:not-allowed}
+dialog{
+  width:min(900px,calc(100vw - 30px));border:0;border-radius:26px;
+  background:var(--paper);box-shadow:var(--shadow);padding:28px;
+}
+dialog::backdrop{background:rgba(40,32,25,.4);backdrop-filter:blur(7px)}
+.dialog-head{display:flex;justify-content:space-between;align-items:center}
+.dialog-head button{border:0;background:transparent;font-size:28px}
+.shelf{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px}
+.shelf button{
+  min-height:170px;border:0;border-radius:8px 17px 17px 8px;padding:18px;text-align:left;
+  background:#f0d9bd;box-shadow:7px 10px 20px rgba(55,42,31,.14);color:var(--ink)
+}
+.shelf button:nth-child(2){background:#c5d9d1}
+.shelf button:nth-child(3){background:#e0a5aa}
+.shelf button:nth-child(4){background:#e8b378}
+.shelf span{display:block;font-size:12px;margin-bottom:14px}
+@media(max-width:760px){
+  .book{min-height:730px}
+  .page{min-height:730px;padding:46px 26px 64px}
+  .spread{grid-template-columns:1fr;gap:30px;min-height:620px}
+  .binder-rings{left:6px;top:70px;bottom:70px;width:12px}
+  .binder-rings span{height:22px}
+  .art-panel{min-height:270px}
+  .cover-copy{min-height:250px}
+}

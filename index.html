@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f4eee4">
-<link rel="manifest" href="./manifest.webmanifest?v=v07">
-<title>JOY Diary · v0.7</title>
+<link rel="manifest" href="./manifest.webmanifest?v=v08">
+<title>JOY Diary · v0.8</title>
 <style>
 :root{
   --paper:#fffaf1;--paper-deep:#f5ecdf;--ink:#342d27;--muted:#786f66;
@@ -245,6 +245,34 @@ input[type=date]{padding:10px;border:1px solid var(--line);border-radius:10px;ba
   .prompt{font-size:26px}
   .timeline{padding-left:23px}.stop{padding-left:18px}
 }
+
+/* v0.8 — 旅の物語を完成させる */
+.daily-spread{align-items:start}
+.daily-heading{margin:8px 0 28px}
+.daily-date{font-family:Georgia,"Times New Roman","Yu Mincho",serif;font-size:clamp(28px,5vw,48px);line-height:1;margin:0 0 10px}
+.daily-kicker{font-size:11px;letter-spacing:.18em;color:var(--muted);font-weight:700}
+.daily-title{font-family:Georgia,"Times New Roman","Yu Mincho",serif;font-size:clamp(28px,5vw,50px);line-height:1.28;margin:22px 0 8px;overflow-wrap:anywhere}
+.daily-subtitle{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:clamp(16px,2.3vw,22px);line-height:1.75;margin:0;color:var(--ink)}
+.daily-story{margin:22px 0 30px;padding:20px 22px;border-left:2px solid var(--gold);background:rgba(255,255,255,.42);font-family:"Yu Mincho","Hiragino Mincho ProN",serif;line-height:2}
+.daily-story p{margin:0 0 12px}.daily-story p:last-child{margin-bottom:0}
+.daily-fields{display:grid;gap:24px}
+.daily-field label{display:block;margin-bottom:9px;font-size:15px}
+.daily-field textarea{min-height:128px}
+.time-label{display:inline-block;margin-right:7px;font-family:Georgia,"Times New Roman",serif;font-size:11px;letter-spacing:.14em;color:var(--muted)}
+.little-card{padding:24px}
+.little-card .eyebrow{font-size:10px;letter-spacing:.14em;overflow-wrap:anywhere}
+.little-card .prompt{font-size:clamp(20px,3.5vw,31px);line-height:1.45;overflow-wrap:anywhere;word-break:normal}
+.final-question-title{font-family:Georgia,"Times New Roman","Yu Mincho",serif;font-size:clamp(32px,6vw,58px);line-height:1.3;margin:18px 0 28px}
+@media(max-width:720px){
+  .daily-heading{margin-bottom:22px}
+  .daily-title{font-size:30px}
+  .daily-subtitle{font-size:17px}
+  .daily-story{padding:17px 16px;line-height:1.9}
+  .little-card{padding:19px 17px}
+  .little-card .prompt{font-size:22px}
+  .daily-field textarea{min-height:116px}
+}
+
 </style>
 </head>
 <body>
@@ -268,7 +296,7 @@ input[type=date]{padding:10px;border:1px solid var(--line);border-radius:10px;ba
 <div class="toast" id="toast">受け取りました。</div>
 
 <script>
-const VERSION="20260730-v07";
+const VERSION="20260730-v08";
 const START=new Date("2026-07-31T00:00:00");
 const END=new Date("2026-09-12T23:59:59");
 const prompts=[
@@ -286,6 +314,7 @@ const storageKey="joyDiary_"+VERSION;
 let state=JSON.parse(localStorage.getItem(storageKey)||"null");
 if(!state){
   const old=
+    localStorage.getItem("joyDiary_20260730-v07") ||
     localStorage.getItem("joyDiary_20260730-v06") ||
     localStorage.getItem("joyDiary_20260730-step5") ||
     localStorage.getItem("joyDiary_20260725-step3");
@@ -330,7 +359,7 @@ return `<article class="page"><div class="spread">
 
 function journey(){
   const n=now();
-  const journeyStart=new Date("2026-07-30T00:00:00");
+  const journeyStart=new Date("2026-07-31T00:00:00");
   const totalDays=Math.round((END-journeyStart)/86400000)+1;
   const passed=Math.max(0,Math.min(totalDays,Math.floor((n-journeyStart)/86400000)+1));
   const pct=Math.round((passed/totalDays)*100);
@@ -353,49 +382,92 @@ function journey(){
     </div>
     <div class="timeline">
       <div class="chapter">PREPARATION</div>
-      ${stop("2026-07-30","7月30日","JOY Diaryを受け取る日","このプログラムの意図を書き、旅の入口に立つ日。")}
-      ${stop("2026-07-31","7月31日","準備を楽しむ最終日")}
+      ${stop("2026-07-31","7月31日","準備を楽しむ、最後の1日。","「まだ始まっていない」を体験できる、最後の日。")}
 
       <div class="chapter">JOY RETREAT</div>
       ${stop("2026-08-01","8月1日 · DAY 1","委ねて味わうを体験する1日")}
       ${stop("2026-08-02","8月2日 · DAY 2","JOYの幅を体験する1日")}
       ${stop("2026-08-03","8月3日 · DAY 3","今の自分で人生を意図する1日")}
 
-      <div class="chapter">JOY RETREAT · AFTER</div>
-      ${stop("2026-08-04","DAY 4","余韻に浸る1日目","ありのままの余韻を、急いで意味にしない。","after")}
-      ${stop("2026-08-05","DAY 5","余韻に浸る2日目","日常の中に残っている感覚を味わう。","after")}
-      ${stop("2026-08-06","DAY 6","余韻に浸る3日目","受け取ったものが、自分の中に馴染んでいく日。","after")}
-      ${stop("2026-08-08","8月8日 · DAY 9","JOY Meeting②","リトリートから1週間。<br>今感じている震えと気づきを受け取る日。","meeting")}
-      ${stop("2026-09-12","9月12日","JOY Meeting③","この旅を締めくくる、最後のJOYミーティング。","meeting")}
+      <div class="chapter">AFTER THE RETREAT</div>
+      ${stop("2026-08-04","DAY 1","余韻に浸る1日目")}
+      ${stop("2026-08-05","DAY 2","余韻に浸る2日目")}
+      ${stop("2026-08-06","DAY 3","余韻に浸る3日目")}
+      ${stop("2026-08-08","8月8日","JOY Meeting②","リトリートから1週間。<br>今感じている震えと気づきを受け取る日。","meeting")}
+
+      <div class="chapter">JOY IN EVERYDAY LIFE</div>
+      ${stop("2026-08-09","8月9日〜","JOYを、日常に育てる。","リトリートで受け取った心地よさを、日常の中でさらに育てていく。")}
+      ${stop("2026-09-12","9月12日","今思う、あなたにとっての人生とは？","この旅の今を、自分の言葉で受け取る日。","meeting")}
     </div>
   </div></article>`}
 
 function daily(d,i){
   const ds=d.toISOString().slice(0,10),k="d_"+ds,p=prompts[i%prompts.length];
   const sel=state[k+"_color"]||colors[i%colors.length];
-  const date=`${d.getMonth()+1}/${d.getDate()}`;
-  let special="";
-  if(ds==="2026-07-31") special="準備を楽しむ最終日";
-  if(ds==="2026-08-01") special="JOY RETREAT Day1 · 委ねて味わうを体験する1日";
-  if(ds==="2026-08-02") special="JOY RETREAT Day2 · JOYの幅を体験する1日";
-  if(ds==="2026-08-03") special="JOY RETREAT Day3 · 今の自分で人生を意図する1日";
-  if(ds==="2026-08-04") special="JOY RETREAT After · 余韻に浸る1日目";
-  if(ds==="2026-08-05") special="JOY RETREAT After · 余韻に浸る2日目";
-  if(ds==="2026-08-06") special="JOY RETREAT After · 余韻に浸る3日目";
-  if(ds==="2026-08-08") special="JOY Meeting② · 今感じている震えと気づきを受け取る日";
-  if(ds==="2026-09-12") special="JOY Meeting③ · 最後のJOYミーティング";
-  return `<article class="page" data-date="${d.toISOString()}"><div class="spread">
-    <div class="left"><div class="eyebrow">${date} · TODAY'S JOURNEY</div>
-      ${special?`<div class="badge">${special}</div>`:""}
-      <h2>今日という旅を<br>どんな気分で歩く？</h2>
-      <div class="today-focus"><b>朝の3分で、今日のフィーリングを選ぶ。</b><div class="body">全部を埋めなくて大丈夫。まずは「今日の意図」だけで十分です。</div></div>
-      <div class="field"><label><b>今日の意図</b></label>${field(k+"_intent","今日、感じていたいフィーリング。")}</div>
-      <div class="field"><label><b>今日、受け取ったJOY</b><span class="optional-label">書きたい時だけ</span></label>${field(k+"_joy","小さなことも、遠慮なく。")}</div>
-      <div class="field"><label><b>今、何を感じている？</b><span class="optional-label">書きたい時だけ</span></label>${field(k+"_feel","うまく言葉にならなくても大丈夫。")}</div>
+  const date=`${d.getMonth()+1}月${d.getDate()}日`;
+
+  let title="JOYを、日常に育てる。";
+  let subtitle="";
+  let story="";
+
+  if(ds==="2026-07-31"){
+    title="準備を楽しむ、最後の1日。";
+    story=`<div class="daily-story">
+      <p>明日から、JOY RETREATが始まります。</p>
+      <p><b>今日が、「まだ始まっていない」を体験できる、最後の日です。</b></p>
+      <p>明日を楽しみに待てること。<br>ワクワクを育てられること。<br>波動を温めながら過ごせること。</p>
+      <p><b>この時間は、今日しか味わえません。</b></p>
+      <p>どうぞ、この「始まる前の幸せ」を、思いっきり味わってください。</p>
+    </div>`;
+  } else if(ds==="2026-08-01"){
+    title="JOY RETREAT Day1"; subtitle="委ねて味わうを体験する1日";
+  } else if(ds==="2026-08-02"){
+    title="JOY RETREAT Day2"; subtitle="JOYの幅を体験する1日";
+  } else if(ds==="2026-08-03"){
+    title="JOY RETREAT Day3"; subtitle="今の自分で人生を意図する1日";
+  } else if(ds==="2026-08-04"){
+    title="Day1"; subtitle="余韻に浸る1日目";
+  } else if(ds==="2026-08-05"){
+    title="Day2"; subtitle="余韻に浸る2日目";
+  } else if(ds==="2026-08-06"){
+    title="Day3"; subtitle="余韻に浸る3日目";
+  } else if(ds==="2026-08-07"){
+    title="Day4"; subtitle="余韻を抱いたまま、日常へ戻る日";
+  } else if(ds==="2026-08-08"){
+    title="JOY Meeting②";
+    subtitle="リトリートから1週間。今感じている震えと気づきを受け取る日";
+  } else if(ds==="2026-09-12"){
+    title="今思う、あなたにとっての人生とは？";
+    subtitle="";
+  }
+
+  return `<article class="page" data-date="${d.toISOString()}"><div class="spread daily-spread">
+    <div class="left">
+      <div class="daily-heading">
+        <div class="daily-date">${date}</div>
+        <div class="daily-kicker">TODAY'S JOURNEY</div>
+        <h2 class="daily-title">${title}</h2>
+        ${subtitle?`<p class="daily-subtitle">${subtitle}</p>`:""}
+      </div>
+      ${story}
+      <div class="daily-fields">
+        <div class="daily-field">
+          <label><span class="time-label">朝</span><b>今日の意図</b></label>
+          ${field(k+"_intent","")}
+        </div>
+        <div class="daily-field">
+          <label><span class="time-label">夜</span><b>今日受け取ったJOY</b></label>
+          ${field(k+"_joy","")}
+        </div>
+      </div>
     </div>
-    <div class="right"><div class="card"><div class="eyebrow">TODAY'S LITTLE PROMPT</div><div class="prompt">${p}</div>
-      ${p.includes("色")?`<div class="palette">${colors.map(c=>`<button class="sw ${c===sel?"sel":""}" data-color="${c}" data-key="${k}_color" style="background:${c}"></button>`).join("")}</div><div class="water"><div class="blob" style="background:${sel}"></div></div>`:field(k+"_prompt","今日、心に残ったものを自由に。")}
-    </div><p class="note" style="margin-top:20px">全部書かなくていい。今日は、色だけでもいい。</p></div>
+    <div class="right">
+      <div class="card little-card">
+        <div class="eyebrow">TODAY'S LITTLE PROMPT</div>
+        <div class="prompt">${p}</div>
+        ${p.includes("色")?`<div class="palette">${colors.map(c=>`<button class="sw ${c===sel?"sel":""}" data-color="${c}" data-key="${k}_color" style="background:${c}"></button>`).join("")}</div><div class="water"><div class="blob" style="background:${sel}"></div></div>`:field(k+"_prompt","")}
+      </div>
+    </div>
   </div></article>`}
 
 function finalPage(){
@@ -411,8 +483,7 @@ return `<article class="page"><div class="spread">
     </div>
   </div>
   <div class="right"><div class="eyebrow">FINAL QUESTION</div>
-    <div class="prompt">このプログラムを歩き終えた今、<br>あなたにとっての人生とは？</div>
-    <p class="body">最初の意図と同じ答えでなくていい。今ここにいる自分の言葉を受け取ろう。</p>
+    <h2 class="final-question-title">今思う、<br>あなたにとっての人生とは？</h2>
     <div class="field">${field("final","今のあなたの言葉で。")}</div>
     <button class="pill dark" id="receive">旅の最初の日へ戻る</button>
   </div>
@@ -458,7 +529,12 @@ function shelfBuild(){
   shelf.innerHTML=all.map((p,i)=>{
     const dt=p.dataset.date?new Date(p.dataset.date):null;
     const name=i===0?"JOY Diary":i===1?"Opening Intention":i===2?"Journey":i===all.length-1?"Final Page":`${dt.getMonth()+1}/${dt.getDate()}`;
-    const chapter=i<3?"OPENING":i===all.length-1?"FINAL":dt&&dt<=new Date("2026-08-03T23:59:59")?"RETREAT":"AFTER";
+    let chapter="DAILY";
+    if(i<3) chapter="OPENING";
+    else if(i===all.length-1) chapter="FINAL";
+    else if(dt&&dt<=new Date("2026-08-03T23:59:59")) chapter="RETREAT";
+    else if(dt&&dt<new Date("2026-08-09T00:00:00")) chapter="AFTER";
+    else chapter="JOY IN LIFE";
     return `<button class="thumb ${i>m?"lock":""}" data-page="${i}" ${i>m?"disabled":""}>
       <small>${dt?dt.toLocaleDateString("ja-JP",{month:"long",day:"numeric"}):""}</small><div class="tname">${name}</div>
       <span class="chapter-mark">${chapter}</span>
@@ -474,7 +550,7 @@ document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".overlay
 previewDate.onchange=()=>{build();show(Math.min(current,max()))};
 reset.onclick=()=>{if(confirm("この端末に保存した入力をすべて消しますか？")){localStorage.removeItem(storageKey);localStorage.removeItem("joyPage_"+VERSION);location.reload()}};
 build();show(current);
-if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v07"));
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v08"));
 
 // v0.6 interactions
 function openCurrentToday(){

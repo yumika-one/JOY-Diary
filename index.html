@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f4eee4">
-<link rel="manifest" href="./manifest.webmanifest?v=v06">
-<title>JOY Diary · v0.6</title>
+<link rel="manifest" href="./manifest.webmanifest?v=v07">
+<title>JOY Diary · v0.7</title>
 <style>
 :root{
   --paper:#fffaf1;--paper-deep:#f5ecdf;--ink:#342d27;--muted:#786f66;
@@ -264,11 +264,11 @@ input[type=date]{padding:10px;border:1px solid var(--line);border-radius:10px;ba
 </div>
 
 <div class="overlay" id="shelfOverlay"><div class="panel"><div class="phead"><h3>あなたの本棚</h3><button class="round close">×</button></div><p class="shelf-intro">書いた日々は、達成記録ではなく、あなたが受け取ってきた旅の断片です。</p><div class="shelf" id="shelf"></div></div></div>
-<div class="overlay" id="settingsOverlay"><div class="panel" style="max-width:560px"><div class="phead"><h3>設定</h3><button class="round close">×</button></div><div class="settings"><label>プレビュー日</label><input type="date" id="previewDate"><p class="body">通常は今日の日付まで開きます。未来ページの確認はここだけで行えます。</p></div><div class="settings"><button class="pill" id="reset">この端末の入力をリセット</button></div></div></div>
-<div class="toast" id="toast">保存しました</div>
+<div class="overlay" id="settingsOverlay"><div class="panel" style="max-width:560px"><div class="phead"><h3>設定</h3><button class="round close">×</button></div><div class="settings"><div class="badge">REVIEW MODE · 全ページ開放</div><label>プレビュー日</label><input type="date" id="previewDate"><p class="body">レビュー版では、すべてのページを開けます。プレビュー日を変えると、その日を「今日」としてJourneyの現在地を確認できます。</p></div><div class="settings"><button class="pill" id="reset">この端末の入力をリセット</button></div></div></div>
+<div class="toast" id="toast">受け取りました。</div>
 
 <script>
-const VERSION="20260730-v06";
+const VERSION="20260730-v07";
 const START=new Date("2026-07-31T00:00:00");
 const END=new Date("2026-09-12T23:59:59");
 const prompts=[
@@ -285,7 +285,10 @@ const colors=["#e77d42","#8caec1","#d87886","#9bbbaa","#8c9271","#f1c66c","#8d4d
 const storageKey="joyDiary_"+VERSION;
 let state=JSON.parse(localStorage.getItem(storageKey)||"null");
 if(!state){
-  const old=localStorage.getItem("joyDiary_20260725-step3");
+  const old=
+    localStorage.getItem("joyDiary_20260730-v06") ||
+    localStorage.getItem("joyDiary_20260730-step5") ||
+    localStorage.getItem("joyDiary_20260725-step3");
   state=old?JSON.parse(old):{};
 }
 let current=Number(localStorage.getItem("joyPage_"+VERSION)||0);
@@ -325,28 +328,13 @@ return `<article class="page"><div class="spread">
   </div>
 </div></article>`}
 
-function intention(){
-return `<article class="page"><div class="intro">
-  <div class="badge">7月30日 · 残り45日</div>
-  <h2>この45日間のJOYリトリートプログラム全体を、どう意図しますか？</h2>
-  <div class="intro-text body">
-    <p><b>前回のJOYミーティングで決めた意図を、ここに書き込んでみましょう。</b></p>
-    <p>この45日間は、あなたが「今日を意図して生きる」ことを実践する旅です。</p>
-    <p>毎日の出来事をコントロールするのではなく、<br><strong>何を感じながら、この45日間を歩むのか。</strong></p>
-  </div>
-  <div class="field"><label><b>45日後、どんな自分を受け取りたいですか？</b></label>${field("open1")}</div>
-  <div class="field"><label><b>この45日間、どんなフィーリングを大切にしたいですか？</b></label>${field("open2")}</div>
-  <div class="field"><label><b>45日後、どんな変化を感じていたいですか？</b></label>${field("open3")}</div>
-  <p class="notice">この意図は、プログラム期間中いつでも書き直すことができます。その時の自分に合わせて、何度でも更新してください。</p>
-</div></article>`}
-
 function journey(){
   const n=now();
   const journeyStart=new Date("2026-07-30T00:00:00");
   const totalDays=Math.round((END-journeyStart)/86400000)+1;
   const passed=Math.max(0,Math.min(totalDays,Math.floor((n-journeyStart)/86400000)+1));
   const pct=Math.round((passed/totalDays)*100);
-  const currentText=n<journeyStart?"旅の入口で待っています":n>END?"45日間の旅を歩ききりました":`今日は、旅の${passed}日目。`;
+  const currentText=n<journeyStart?"旅の入口で待っています":n>END?"この旅を歩ききりました":`今日は、旅の${passed}日目。`;
   const stop=(date,dateLabel,title,copy="",cls="")=>{
     const target=new Date(date+"T12:00:00");
     const d0=new Date(n.getFullYear(),n.getMonth(),n.getDate());
@@ -365,7 +353,7 @@ function journey(){
     </div>
     <div class="timeline">
       <div class="chapter">PREPARATION</div>
-      ${stop("2026-07-30","7月30日","JOY Diaryを受け取る日","45日間全体の意図を書き、旅の入口に立つ日。")}
+      ${stop("2026-07-30","7月30日","JOY Diaryを受け取る日","このプログラムの意図を書き、旅の入口に立つ日。")}
       ${stop("2026-07-31","7月31日","準備を楽しむ最終日")}
 
       <div class="chapter">JOY RETREAT</div>
@@ -418,7 +406,7 @@ return `<article class="page"><div class="spread">
       <div class="quote">${esc(state.open1)||"ここに、旅のはじまりに置いた、あなたの言葉が戻ってきます。"}</div>
     </div>
     <div class="card body">
-      <p><b>大切にしたかったフィーリング</b><br>${esc(state.open2)||"—"}</p>
+      <p><b>受け取りたいと意図した自分</b><br>${esc(state.open1)||"—"}</p>
       <p><b>この旅で大切にしたかったフィーリング</b><br>${esc(state.open2)||"—"}</p>
     </div>
   </div>
@@ -431,7 +419,7 @@ return `<article class="page"><div class="spread">
 </div></article>`}
 
 function build(){
-  let arr=[cover(),opening(),intention(),journey()];
+  let arr=[cover(),opening(),journey()];
   let d=new Date(START),i=0;
   while(d<=END){arr.push(daily(new Date(d),i++));d.setDate(d.getDate()+1)}
   arr.push(finalPage());
@@ -443,7 +431,8 @@ function bind(){
     if(el.classList.contains("sw")) el.onclick=()=>{state[el.dataset.key]=el.dataset.color;save();build();show(current)};
     else el.oninput=()=>{state[el.dataset.key]=el.value;save()};
   });
-  document.getElementById("receive")?.addEventListener("click",()=>show(2));
+  document.getElementById("beginJourney")?.addEventListener("click",()=>show(2));
+  document.getElementById("receive")?.addEventListener("click",()=>show(1));
 }
 function save(){
   localStorage.setItem(storageKey,JSON.stringify(state));
@@ -453,10 +442,7 @@ function save(){
 }
 function now(){return previewDate.value?new Date(previewDate.value+"T23:59:59"):new Date()}
 function max(){
-  const n=now(),all=document.querySelectorAll(".page").length;
-  if(n<START)return 3;
-  if(n>=END)return all-1;
-  return Math.min(4+Math.floor((n-START)/86400000),all-2);
+  return document.querySelectorAll(".page").length-1;
 }
 function show(i){
   const all=[...document.querySelectorAll(".page")];
@@ -471,8 +457,8 @@ function shelfBuild(){
   const all=[...document.querySelectorAll(".page")],m=max();
   shelf.innerHTML=all.map((p,i)=>{
     const dt=p.dataset.date?new Date(p.dataset.date):null;
-    const name=i===0?"JOY Diary":i===1?"Life is a Journey":i===2?"45日間の意図":i===3?"Journey":i===all.length-1?"Final Page":`${dt.getMonth()+1}/${dt.getDate()}`;
-    const chapter=i<4?"OPENING":i===all.length-1?"FINAL":dt&&dt<=new Date("2026-08-03T23:59:59")?"RETREAT":"AFTER";
+    const name=i===0?"JOY Diary":i===1?"Opening Intention":i===2?"Journey":i===all.length-1?"Final Page":`${dt.getMonth()+1}/${dt.getDate()}`;
+    const chapter=i<3?"OPENING":i===all.length-1?"FINAL":dt&&dt<=new Date("2026-08-03T23:59:59")?"RETREAT":"AFTER";
     return `<button class="thumb ${i>m?"lock":""}" data-page="${i}" ${i>m?"disabled":""}>
       <small>${dt?dt.toLocaleDateString("ja-JP",{month:"long",day:"numeric"}):""}</small><div class="tname">${name}</div>
       <span class="chapter-mark">${chapter}</span>
@@ -485,16 +471,17 @@ next.onclick=()=>show(current+1);
 shelfBtn.onclick=()=>{shelfBuild();shelfOverlay.classList.add("open")};
 settingsBtn.onclick=()=>settingsOverlay.classList.add("open");
 document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".overlay").classList.remove("open"));
-previewDate.onchange=()=>show(current);
+previewDate.onchange=()=>{build();show(Math.min(current,max()))};
 reset.onclick=()=>{if(confirm("この端末に保存した入力をすべて消しますか？")){localStorage.removeItem(storageKey);localStorage.removeItem("joyPage_"+VERSION);location.reload()}};
 build();show(current);
-if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v06"));
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v07"));
 
 // v0.6 interactions
 function openCurrentToday(){
   const n=now();
-  let idx=4+Math.floor((n-START)/86400000);
-  idx=Math.max(4,Math.min(all.length-2,idx));
+  const pageCount=document.querySelectorAll(".page").length;
+  let idx=3+Math.floor((n-START)/86400000);
+  idx=Math.max(3,Math.min(pageCount-2,idx));
   show(idx);
 }
 document.addEventListener("click",(e)=>{

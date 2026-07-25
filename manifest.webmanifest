@@ -1,7 +1,7 @@
 {
   "name": "JOY Diary",
   "short_name": "JOY Diary",
-  "start_url": "./?v=v06",
+  "start_url": "./?v=v07",
   "display": "standalone",
   "background_color": "#fffaf1",
   "theme_color": "#f4eee4",

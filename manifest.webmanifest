@@ -1,0 +1,9 @@
+{
+  "name": "JOY Diary",
+  "short_name": "JOY Diary",
+  "start_url": "./?v=step4",
+  "display": "standalone",
+  "background_color": "#fffaf1",
+  "theme_color": "#f4eee4",
+  "icons": []
+}

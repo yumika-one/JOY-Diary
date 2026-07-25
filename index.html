@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f4eee4">
-<link rel="manifest" href="./manifest.webmanifest?v=step5">
-<title>JOY Diary · Step 5</title>
+<link rel="manifest" href="./manifest.webmanifest?v=v06">
+<title>JOY Diary · v0.6</title>
 <style>
 :root{
   --paper:#fffaf1;--paper-deep:#f5ecdf;--ink:#342d27;--muted:#786f66;
@@ -164,7 +164,18 @@ input[type=date]{padding:10px;border:1px solid var(--line);border-radius:10px;ba
 .toast{display:none;position:fixed;z-index:60;left:50%;bottom:24px;transform:translateX(-50%);background:#2f2b27;color:#fff;padding:10px 18px;border-radius:999px}
 
 
-/* Step 5 — 旅を感じる */
+/* v0.6 — 今日を生きる */
+.preview-note{
+  margin:10px 0 18px;padding:10px 13px;border-radius:12px;
+  background:rgba(168,188,174,.13);color:var(--muted);font-size:12px;line-height:1.6
+}
+.save-received{
+  position:fixed;left:50%;bottom:30px;transform:translate(-50%,20px);
+  z-index:1000;padding:10px 16px;border-radius:999px;background:rgba(54,45,38,.92);color:#fff;
+  font-size:12px;letter-spacing:.06em;opacity:0;pointer-events:none;transition:.25s ease
+}
+.save-received.show{opacity:1;transform:translate(-50%,0)}
+
 .progress-card{
   margin:20px 0 4px;padding:18px 20px;border:1px solid var(--line);border-radius:18px;
   background:linear-gradient(135deg,rgba(255,255,255,.54),rgba(168,188,174,.10))
@@ -176,6 +187,7 @@ input[type=date]{padding:10px;border:1px solid var(--line);border-radius:10px;ba
 .stop.past{opacity:.72}
 .stop.past:before{content:"✓";display:grid;place-items:center;color:#fff;font-size:9px;background:var(--mint);border-color:var(--mint)}
 .stop.current{
+  cursor:pointer;
   margin-left:-4px;padding:16px 18px 18px 19px;border:1px solid rgba(198,165,106,.35);
   border-radius:17px;background:rgba(198,165,106,.10);box-shadow:0 10px 26px rgba(87,63,33,.07)
 }
@@ -256,7 +268,7 @@ input[type=date]{padding:10px;border:1px solid var(--line);border-radius:10px;ba
 <div class="toast" id="toast">保存しました</div>
 
 <script>
-const VERSION="20260730-step5";
+const VERSION="20260730-v06";
 const START=new Date("2026-07-31T00:00:00");
 const END=new Date("2026-09-12T23:59:59");
 const prompts=[
@@ -289,12 +301,28 @@ return `<article class="page"><div class="spread">
 </div></article>`}
 
 function opening(){
-return `<article class="page"><div class="intro">
-  <div class="eyebrow">JOY DIARY · OPENING</div><h2>Life is a Journey.</h2>
-  <div class="copy"><p><strong>人生は、自分の「好き」を受け取り続ける、豊かな旅。</strong></p>
-  <p>あなたの「好き」や「JOY」を、<br>遠慮なく集めていこう。</p>
-  <p>あなたの旅には、<br>あなたがまだ気づいていない宝物が、<br>きっと、たくさん、待っているから。</p></div>
-  <p class="note">Let's begin your journey.</p>
+return `<article class="page"><div class="spread">
+  <div class="left">
+    <div class="eyebrow">OPENING INTENTION</div>
+    <h2>この旅のはじまりに、<br>意図を置く。</h2>
+    <p class="body">前回のJOY Meetingで決めた意図を、ここに書き込んでみましょう。</p>
+    <div class="card body">
+      <p>このプログラムは、あなたが<strong>意図的創造者として生きる習慣</strong>を育てていく旅です。</p>
+      <p>毎日の出来事をコントロールするのではなく、フィーリングを信頼し、フィーリングをゴールに歩んでいきましょう。</p>
+    </div>
+    <p class="note">この意図は、旅の途中でいつでも書き直せます。</p>
+  </div>
+  <div class="right">
+    <div class="field">
+      <label><b>このプログラムを終えて、どんな自分を受け取りたいですか？</b></label>
+      ${field("open1","今のあなたの言葉で。")}
+    </div>
+    <div class="field">
+      <label><b>このプログラムでは、どんなフィーリングを大切に過ごしますか？</b></label>
+      ${field("open2","心地よさ、自由、安心、JOY…。")}
+    </div>
+    <button class="pill dark" id="beginJourney">この意図と旅をはじめる</button>
+  </div>
 </div></article>`}
 
 function intention(){
@@ -324,10 +352,11 @@ function journey(){
     const d0=new Date(n.getFullYear(),n.getMonth(),n.getDate());
     const t0=new Date(target.getFullYear(),target.getMonth(),target.getDate());
     const stateClass=d0>t0?"past":d0<t0?"future":"current";
-    return `<div class="stop ${cls} ${stateClass}"><div class="stop-date">${dateLabel}${stateClass==="current"?'<span class="now-tag">今ここ</span>':""}</div><div class="stop-title">${title}</div>${copy?`<p class="stop-copy">${copy}</p>`:""}</div>`;
+    const action=stateClass==="current" ? ` role="button" tabindex="0" data-goto-today="1" title="今日のページを開く"` : "";
+    return `<div class="stop ${cls} ${stateClass}"${action}><div class="stop-date">${dateLabel}${stateClass==="current"?'<span class="now-tag">今ここ</span>':""}</div><div class="stop-title">${title}</div>${copy?`<p class="stop-copy">${copy}</p>`:""}</div>`;
   };
   return `<article class="page"><div class="journey-wrap">
-    <div class="eyebrow">YOUR 45-DAY JOURNEY</div><h2>この旅の、今いる場所。</h2>
+    <div class="eyebrow">YOUR JOURNEY</div><h2>この旅の、今いる場所。</h2>
     <p class="body">これは予定をこなすための一覧ではなく、今日を意図して歩くための旅のしおりです。</p>
     <div class="progress-card">
       <div class="progress-label">JOURNEY PROGRESS</div>
@@ -349,7 +378,7 @@ function journey(){
       ${stop("2026-08-05","DAY 5","余韻に浸る2日目","日常の中に残っている感覚を味わう。","after")}
       ${stop("2026-08-06","DAY 6","余韻に浸る3日目","受け取ったものが、自分の中に馴染んでいく日。","after")}
       ${stop("2026-08-08","8月8日 · DAY 9","JOY Meeting②","リトリートから1週間。<br>今感じている震えと気づきを受け取る日。","meeting")}
-      ${stop("2026-09-12","9月12日","JOY Meeting③","45日間の旅を締めくくる、最後のJOYミーティング。","meeting")}
+      ${stop("2026-09-12","9月12日","JOY Meeting③","この旅を締めくくる、最後のJOYミーティング。","meeting")}
     </div>
   </div></article>`}
 
@@ -371,7 +400,7 @@ function daily(d,i){
     <div class="left"><div class="eyebrow">${date} · TODAY'S JOURNEY</div>
       ${special?`<div class="badge">${special}</div>`:""}
       <h2>今日という旅を<br>どんな気分で歩く？</h2>
-      <div class="today-focus"><b>今日は「今日の意図」だけでも十分。</b><div class="body">全部を埋めるためではなく、今の自分に還るためのページです。</div></div>
+      <div class="today-focus"><b>朝の3分で、今日のフィーリングを選ぶ。</b><div class="body">全部を埋めなくて大丈夫。まずは「今日の意図」だけで十分です。</div></div>
       <div class="field"><label><b>今日の意図</b></label>${field(k+"_intent","今日、感じていたいフィーリング。")}</div>
       <div class="field"><label><b>今日、受け取ったJOY</b><span class="optional-label">書きたい時だけ</span></label>${field(k+"_joy","小さなことも、遠慮なく。")}</div>
       <div class="field"><label><b>今、何を感じている？</b><span class="optional-label">書きたい時だけ</span></label>${field(k+"_feel","うまく言葉にならなくても大丈夫。")}</div>
@@ -386,15 +415,15 @@ return `<article class="page"><div class="spread">
   <div class="left"><div class="eyebrow">THE JOURNEY CONTINUES</div><h2>旅の入口に置いた、<br>あなたの意図。</h2>
     <div class="intention-echo">
       <div class="eyebrow">FROM YOUR OPENING INTENTION</div>
-      <div class="quote">${esc(state.open1)||"ここに、45日前のあなたの言葉が戻ってきます。"}</div>
+      <div class="quote">${esc(state.open1)||"ここに、旅のはじまりに置いた、あなたの言葉が戻ってきます。"}</div>
     </div>
     <div class="card body">
       <p><b>大切にしたかったフィーリング</b><br>${esc(state.open2)||"—"}</p>
-      <p><b>感じたかった変化</b><br>${esc(state.open3)||"—"}</p>
+      <p><b>この旅で大切にしたかったフィーリング</b><br>${esc(state.open2)||"—"}</p>
     </div>
   </div>
   <div class="right"><div class="eyebrow">FINAL QUESTION</div>
-    <div class="prompt">45日間を歩いた今、<br>あなたにとっての人生とは？</div>
+    <div class="prompt">このプログラムを歩き終えた今、<br>あなたにとっての人生とは？</div>
     <p class="body">最初の意図と同じ答えでなくていい。今ここにいる自分の言葉を受け取ろう。</p>
     <div class="field">${field("final","今のあなたの言葉で。")}</div>
     <button class="pill dark" id="receive">旅の最初の日へ戻る</button>
@@ -459,7 +488,37 @@ document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".overlay
 previewDate.onchange=()=>show(current);
 reset.onclick=()=>{if(confirm("この端末に保存した入力をすべて消しますか？")){localStorage.removeItem(storageKey);localStorage.removeItem("joyPage_"+VERSION);location.reload()}};
 build();show(current);
-if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=step5"));
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v06"));
+
+// v0.6 interactions
+function openCurrentToday(){
+  const n=now();
+  let idx=4+Math.floor((n-START)/86400000);
+  idx=Math.max(4,Math.min(all.length-2,idx));
+  show(idx);
+}
+document.addEventListener("click",(e)=>{
+  const stop=e.target.closest?.("[data-goto-today]");
+  if(stop) openCurrentToday();
+});
+document.addEventListener("keydown",(e)=>{
+  if((e.key==="Enter"||e.key===" ") && e.target.matches?.("[data-goto-today]")){
+    e.preventDefault(); openCurrentToday();
+  }
+});
+let saveToastTimer;
+document.addEventListener("input",(e)=>{
+  if(!e.target.matches("textarea,input")) return;
+  clearTimeout(saveToastTimer);
+  saveToastTimer=setTimeout(()=>{
+    const toast=document.getElementById("saveReceived");
+    if(!toast) return;
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),1100);
+  },450);
+});
+
 </script>
+<div class="save-received" id="saveReceived">受け取りました。</div>
 </body>
 </html>

@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f4eee4">
-<link rel="manifest" href="./manifest.webmanifest?v=v10">
-<title>JOY Diary · v0.10</title>
+<link rel="manifest" href="./manifest.webmanifest?v=v11">
+<title>JOY Diary · v0.11</title>
 <style>
 :root{
   --paper:#fffaf1;--paper-deep:#f5ecdf;--ink:#342d27;--muted:#786f66;
@@ -273,6 +273,162 @@ input[type=date]{padding:10px;border:1px solid var(--line);border-radius:10px;ba
   .daily-field textarea{min-height:116px}
 }
 
+
+
+/* =========================================================
+   v0.11 — Prototype of Atmosphere
+   朝、窓を開けたような空気。水彩・紙・光の試作。
+   ========================================================= */
+:root{
+  --paper:#fffaf2;
+  --paper-deep:#f2e6d8;
+  --ink:#332c27;
+  --muted:#81766d;
+  --pink:#e29ba8;
+  --mint:#9ebdae;
+  --gold:#d9aa68;
+  --sky:#91b7c9;
+  --coral:#ed8f64;
+  --line:rgba(76,54,37,.12);
+  --shadow:0 34px 95px rgba(59,40,27,.20),0 4px 18px rgba(70,49,34,.10);
+}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 9% 8%,rgba(255,248,241,.94) 0 8%,transparent 31%),
+    radial-gradient(circle at 92% 13%,rgba(231,190,172,.29),transparent 30%),
+    radial-gradient(circle at 80% 92%,rgba(145,183,201,.19),transparent 32%),
+    linear-gradient(145deg,#d9d0c4 0%,#efe7dc 47%,#cec5ba 100%);
+  background-attachment:fixed;
+}
+body:before,body:after{
+  content:"";position:fixed;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(28px);opacity:.38
+}
+body:before{width:38vw;height:38vw;left:-11vw;bottom:-12vw;background:rgba(226,155,168,.42)}
+body:after{width:32vw;height:32vw;right:-8vw;top:-8vw;background:rgba(158,189,174,.38)}
+.app{padding-top:max(14px,env(safe-area-inset-top));padding-bottom:max(38px,env(safe-area-inset-bottom))}
+.top{max-width:1080px;padding:5px 8px 18px}
+.brand{
+  font-size:17px;letter-spacing:.13em;color:rgba(51,44,39,.82);
+  text-shadow:0 1px 0 rgba(255,255,255,.75)
+}
+.round,.pill{
+  border:1px solid rgba(255,255,255,.62);
+  background:rgba(255,252,247,.70);
+  box-shadow:0 8px 24px rgba(63,43,29,.11),inset 0 1px rgba(255,255,255,.8);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease
+}
+.round:hover,.pill:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(63,43,29,.15);background:rgba(255,252,247,.9)}
+.round:active,.pill:active{transform:translateY(0) scale(.98)}
+.book{
+  max-width:1060px;min-height:735px;border-radius:24px 34px 34px 22px;
+  background:
+    linear-gradient(90deg,rgba(110,76,50,.09),transparent 4.5%,transparent 95.5%,rgba(110,76,50,.09)),
+    radial-gradient(circle at 8% 15%,rgba(237,143,100,.075),transparent 25%),
+    radial-gradient(circle at 91% 87%,rgba(145,183,201,.085),transparent 26%),
+    repeating-linear-gradient(0deg,rgba(89,61,37,.018) 0 1px,transparent 1px 4px),
+    linear-gradient(95deg,#eee3d4 0,#fffaf2 4.2%,#fffdf7 49.5%,#ebdfd0 50%,#fffdf7 50.7%,#fffaf2 95.8%,#eee3d4 100%);
+  box-shadow:var(--shadow);
+}
+.book:before{
+  content:"";position:absolute;z-index:1;inset:0;pointer-events:none;opacity:.17;mix-blend-mode:multiply;
+  background-image:url("./assets/art/art-03.jpg");background-size:cover;background-position:center;
+  filter:saturate(.65) contrast(.8);mask-image:linear-gradient(115deg,rgba(0,0,0,.38),transparent 34%,transparent 70%,rgba(0,0,0,.24));
+  -webkit-mask-image:linear-gradient(115deg,rgba(0,0,0,.38),transparent 34%,transparent 70%,rgba(0,0,0,.24))
+}
+.book:after{opacity:.18;background:
+  radial-gradient(circle at 18% 8%,rgba(231,166,122,.22),transparent 22%),
+  radial-gradient(circle at 87% 93%,rgba(120,170,164,.18),transparent 27%)}
+.rings{filter:drop-shadow(1px 2px 2px rgba(50,39,31,.18))}
+.rings i{border-color:rgba(89,80,71,.40);background:linear-gradient(90deg,rgba(255,255,255,.1),rgba(255,255,255,.62),rgba(160,150,140,.2))}
+.page{min-height:735px;padding:64px 74px 78px}
+.spread{column-gap:112px;min-height:590px}
+.eyebrow{
+  font-size:10px;letter-spacing:.27em;color:#8c7e73;text-transform:uppercase;
+  display:flex;align-items:center;gap:10px
+}
+.eyebrow:after{content:"";width:34px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+h1,h2,h3,.prompt,.stop-title,.tname{font-family:"Yu Mincho","Hiragino Mincho ProN",Georgia,serif}
+.logo{font-size:clamp(56px,7.6vw,88px);line-height:.94;color:#2f2925;text-shadow:0 2px 0 rgba(255,255,255,.65)}
+h2{font-size:clamp(30px,4.1vw,47px);line-height:1.48;letter-spacing:-.035em}
+h3{letter-spacing:.01em}
+.copy{line-height:2.15;letter-spacing:.025em}
+.body{line-height:2.05;color:#595049}
+.note{color:#897a70;transform:rotate(-1.2deg);transform-origin:left center}
+.watercolor{
+  width:min(410px,94%);border-radius:44% 56% 48% 52%/52% 43% 57% 48%;
+  background-image:
+    linear-gradient(rgba(255,255,255,.04),rgba(255,255,255,.04)),
+    url("./assets/art/art-01.jpg");
+  background-size:cover;background-position:center;
+  filter:saturate(.92) contrast(.92) brightness(1.05) drop-shadow(0 22px 30px rgba(58,41,27,.15));
+  opacity:.93;transform:rotate(-2.2deg);
+  animation:floatArt 8s ease-in-out infinite
+}
+.watercolor:before{
+  content:"";position:absolute;inset:-7%;z-index:-1;border-radius:50%;
+  background:radial-gradient(circle,rgba(240,167,139,.21),transparent 66%);filter:blur(9px)
+}
+.watercolor:after{inset:5%;border-radius:41% 59% 46% 54%;border:1px solid rgba(255,255,255,.56);box-shadow:inset 0 0 44px rgba(255,255,255,.18)}
+@keyframes floatArt{0%,100%{transform:rotate(-2.2deg) translateY(0)}50%{transform:rotate(-1deg) translateY(-6px)}}
+.card{
+  position:relative;overflow:hidden;padding:28px 29px;border-color:rgba(93,65,45,.11);border-radius:26px;
+  background:linear-gradient(145deg,rgba(255,255,255,.60),rgba(255,249,240,.32));
+  box-shadow:0 18px 45px rgba(80,54,35,.06),inset 0 1px rgba(255,255,255,.75);
+  backdrop-filter:blur(3px)
+}
+.card:before{
+  content:"";position:absolute;width:140px;height:140px;border-radius:50%;right:-64px;top:-76px;
+  background:radial-gradient(circle,rgba(226,155,168,.16),transparent 68%);pointer-events:none
+}
+.field{margin:22px 0}
+label{font-size:13px;letter-spacing:.015em;color:#534a43}
+textarea{
+  min-height:88px;padding:13px 6px 11px;border-bottom-color:rgba(84,58,39,.16);
+  background:linear-gradient(180deg,transparent 96%,rgba(217,170,104,.13) 100%);
+  transition:border-color .25s ease,background .25s ease
+}
+textarea:focus{border-color:var(--coral);background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(237,143,100,.04))}
+.prompt{font-size:clamp(23px,3vw,36px);line-height:1.65;color:#3b322c}
+.badge,.chapter{
+  border:1px solid rgba(198,165,106,.17);background:rgba(217,170,104,.12);color:#746354
+}
+.timeline:before{width:2px;background:linear-gradient(var(--coral),var(--pink),var(--mint),var(--sky),var(--gold));opacity:.72}
+.stop{padding-bottom:30px}
+.stop:before{background:#fffaf2}
+.stop-title{font-size:23px}
+.stop-copy{line-height:1.95}
+.thumb{
+  min-height:170px;border:1px solid rgba(255,255,255,.42);border-radius:9px 18px 18px 9px;
+  background:
+    linear-gradient(140deg,rgba(255,255,255,.28),transparent 38%),#efd3bb;
+  box-shadow:8px 11px 24px rgba(50,34,21,.16),inset 2px 0 rgba(110,77,52,.08);
+  transition:transform .22s ease,box-shadow .22s ease
+}
+.thumb:hover{transform:translateY(-5px) rotate(-.5deg);box-shadow:10px 17px 30px rgba(50,34,21,.20)}
+.thumb:nth-child(4n+2){background:linear-gradient(140deg,rgba(255,255,255,.28),transparent 38%),#bed7ce}
+.thumb:nth-child(4n+3){background:linear-gradient(140deg,rgba(255,255,255,.28),transparent 38%),#e6b2bd}
+.thumb:nth-child(4n){background:linear-gradient(140deg,rgba(255,255,255,.28),transparent 38%),#e8bf83}
+.panel{background:
+  repeating-linear-gradient(0deg,rgba(86,59,32,.017) 0 1px,transparent 1px 4px),var(--paper);border:1px solid rgba(255,255,255,.55)}
+.nav{margin-top:20px}.num{letter-spacing:.12em;color:#74695f}
+.save-received{background:rgba(53,45,39,.88);box-shadow:0 10px 30px rgba(41,31,24,.18);backdrop-filter:blur(10px)}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+@media(max-width:760px){
+  .app{padding-left:9px;padding-right:9px}
+  .top{padding-left:7px;padding-right:7px}
+  .book{min-height:760px;border-radius:18px 24px 24px 17px}
+  .page{min-height:760px;padding:48px 27px 72px}
+  .spread{gap:34px;min-height:640px}
+  .rings{left:5px;opacity:.72}
+  .watercolor{width:min(285px,80vw)}
+  .card{padding:23px 20px;border-radius:22px}
+  .copy{line-height:2}
+  .brand{font-size:15px;letter-spacing:.09em}
+}
+
 </style>
 </head>
 <body>
@@ -296,7 +452,7 @@ input[type=date]{padding:10px;border:1px solid var(--line);border-radius:10px;ba
 <div class="toast" id="toast">受け取りました。</div>
 
 <script>
-const VERSION="20260730-v10";
+const VERSION="20260730-v11";
 const START=new Date("2026-07-31T00:00:00");
 const END=new Date("2026-09-12T23:59:59");
 const prompts=[
@@ -575,7 +731,7 @@ document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".overlay
 previewDate.onchange=()=>{build();show(Math.min(current,max()))};
 reset.onclick=()=>{if(confirm("この端末に保存した入力をすべて消しますか？")){localStorage.removeItem(storageKey);localStorage.removeItem("joyPage_"+VERSION);location.reload()}};
 build();show(current);
-if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v10"));
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v11"));
 
 // v0.6 interactions
 function openCurrentToday(){

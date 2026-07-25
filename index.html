@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f4eee4">
-<link rel="manifest" href="./manifest.webmanifest?v=v08">
-<title>JOY Diary · v0.8</title>
+<link rel="manifest" href="./manifest.webmanifest?v=v10">
+<title>JOY Diary · v0.10</title>
 <style>
 :root{
   --paper:#fffaf1;--paper-deep:#f5ecdf;--ink:#342d27;--muted:#786f66;
@@ -296,7 +296,7 @@ input[type=date]{padding:10px;border:1px solid var(--line);border-radius:10px;ba
 <div class="toast" id="toast">受け取りました。</div>
 
 <script>
-const VERSION="20260730-v08";
+const VERSION="20260730-v10";
 const START=new Date("2026-07-31T00:00:00");
 const END=new Date("2026-09-12T23:59:59");
 const prompts=[
@@ -314,6 +314,8 @@ const storageKey="joyDiary_"+VERSION;
 let state=JSON.parse(localStorage.getItem(storageKey)||"null");
 if(!state){
   const old=
+    localStorage.getItem("joyDiary_20260730-v09") ||
+    localStorage.getItem("joyDiary_20260730-v08") ||
     localStorage.getItem("joyDiary_20260730-v07") ||
     localStorage.getItem("joyDiary_20260730-v06") ||
     localStorage.getItem("joyDiary_20260730-step5") ||
@@ -323,6 +325,13 @@ if(!state){
 let current=Number(localStorage.getItem("joyPage_"+VERSION)||0);
 const esc=s=>(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;");
 const field=(k,p="ここに、今のあなたの言葉を。")=>`<textarea data-key="${k}" placeholder="${p}">${esc(state[k])}</textarea>`;
+const localDateKey=d=>{
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+};
+
 
 function cover(){
 return `<article class="page"><div class="spread">
@@ -402,8 +411,7 @@ function journey(){
   </div></article>`}
 
 function daily(d,i){
-  const ds=d.toISOString().slice(0,10),k="d_"+ds,p=prompts[i%prompts.length];
-  const sel=state[k+"_color"]||colors[i%colors.length];
+  const ds=localDateKey(d),k="d_"+ds;
   const date=`${d.getMonth()+1}月${d.getDate()}日`;
 
   let title="JOYを、日常に育てる。";
@@ -438,10 +446,9 @@ function daily(d,i){
     subtitle="リトリートから1週間。今感じている震えと気づきを受け取る日";
   } else if(ds==="2026-09-12"){
     title="今思う、あなたにとっての人生とは？";
-    subtitle="";
   }
 
-  return `<article class="page" data-date="${d.toISOString()}"><div class="spread daily-spread">
+  return `<article class="page" data-date="${ds}"><div class="spread daily-spread">
     <div class="left">
       <div class="daily-heading">
         <div class="daily-date">${date}</div>
@@ -463,9 +470,9 @@ function daily(d,i){
     </div>
     <div class="right">
       <div class="card little-card">
-        <div class="eyebrow">TODAY'S LITTLE PROMPT</div>
-        <div class="prompt">${p}</div>
-        ${p.includes("色")?`<div class="palette">${colors.map(c=>`<button class="sw ${c===sel?"sel":""}" data-color="${c}" data-key="${k}_color" style="background:${c}"></button>`).join("")}</div><div class="water"><div class="blob" style="background:${sel}"></div></div>`:field(k+"_prompt","")}
+        <div class="eyebrow">TODAY'S MEMO</div>
+        <div class="prompt">今日の気づき</div>
+        ${field(k+"_memo","気づき、言葉、アイデア。なんでも自由に。")}
       </div>
     </div>
   </div></article>`}
@@ -526,21 +533,39 @@ function show(i){
 }
 function shelfBuild(){
   const all=[...document.querySelectorAll(".page")],m=max();
+  const shelfTitle=(ds)=>{
+    if(ds==="2026-07-31") return "準備を楽しむ、最後の1日。";
+    if(ds==="2026-08-01") return "JOY RETREAT Day1";
+    if(ds==="2026-08-02") return "JOY RETREAT Day2";
+    if(ds==="2026-08-03") return "JOY RETREAT Day3";
+    if(ds==="2026-08-04") return "余韻に浸る Day1";
+    if(ds==="2026-08-05") return "余韻に浸る Day2";
+    if(ds==="2026-08-06") return "余韻に浸る Day3";
+    if(ds==="2026-08-07") return "余韻に浸る Day4";
+    if(ds==="2026-08-08") return "JOY Meeting②";
+    if(ds==="2026-09-12") return "今思う、あなたにとっての人生とは？";
+    return "JOYを、日常に育てる。";
+  };
   shelf.innerHTML=all.map((p,i)=>{
-    const dt=p.dataset.date?new Date(p.dataset.date):null;
-    const name=i===0?"JOY Diary":i===1?"Opening Intention":i===2?"Journey":i===all.length-1?"Final Page":`${dt.getMonth()+1}/${dt.getDate()}`;
+    const ds=p.dataset.date||"";
+    const dt=ds?new Date(ds+"T12:00:00"):null;
+    const name=i===0?"JOY Diary":i===1?"Opening Intention":i===2?"Journey":i===all.length-1?"Final Page":shelfTitle(ds);
     let chapter="DAILY";
     if(i<3) chapter="OPENING";
     else if(i===all.length-1) chapter="FINAL";
-    else if(dt&&dt<=new Date("2026-08-03T23:59:59")) chapter="RETREAT";
-    else if(dt&&dt<new Date("2026-08-09T00:00:00")) chapter="AFTER";
+    else if(ds<="2026-08-03") chapter="RETREAT";
+    else if(ds<="2026-08-08") chapter="AFTER";
     else chapter="JOY IN LIFE";
-    return `<button class="thumb ${i>m?"lock":""}" data-page="${i}" ${i>m?"disabled":""}>
-      <small>${dt?dt.toLocaleDateString("ja-JP",{month:"long",day:"numeric"}):""}</small><div class="tname">${name}</div>
+    return `<button class="thumb" data-page="${i}">
+      <small>${dt?dt.toLocaleDateString("ja-JP",{month:"long",day:"numeric"}):""}</small>
+      <div class="tname">${name}</div>
       <span class="chapter-mark">${chapter}</span>
-      ${i>m?"<span style='position:absolute;right:12px;bottom:12px'>🔒</span>":""}</button>`
+    </button>`;
   }).join("");
-  shelf.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>{show(+b.dataset.page);shelfOverlay.classList.remove("open")});
+  shelf.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>{
+    show(+b.dataset.page);
+    shelfOverlay.classList.remove("open");
+  });
 }
 prev.onclick=()=>show(current-1);
 next.onclick=()=>show(current+1);
@@ -550,7 +575,7 @@ document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".overlay
 previewDate.onchange=()=>{build();show(Math.min(current,max()))};
 reset.onclick=()=>{if(confirm("この端末に保存した入力をすべて消しますか？")){localStorage.removeItem(storageKey);localStorage.removeItem("joyPage_"+VERSION);location.reload()}};
 build();show(current);
-if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v08"));
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v10"));
 
 // v0.6 interactions
 function openCurrentToday(){

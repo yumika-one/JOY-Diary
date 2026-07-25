@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4efe5">
+<link rel="manifest" href="./manifest.webmanifest?v=step3">
+<link rel="apple-touch-icon" href="./icons/icon-192.png?v=step3">
+<title>JOY Diary · Step 3</title>
+<style>
+
+:root{
+  --paper:#fffaf1;--paper2:#f8f0e4;--ink:#2f2924;--orange:#b77738;
+  --blue:#8fa9b4;--pink:#d49a9e;--mint:#a8b8a3;--line:rgba(56,43,31,.15);
+  --shadow:0 28px 80px rgba(54,39,27,.22);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",system-ui,sans-serif;color:var(--ink)}
+body{
+  background:
+    radial-gradient(circle at 15% 10%,rgba(255,255,255,.72),transparent 28%),
+    linear-gradient(135deg,#d5cec3,#eee7dc 50%,#c8c0b5);
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh;padding:14px 14px 32px}
+.top{
+  max-width:1030px;margin:auto;display:flex;justify-content:space-between;
+  align-items:center;padding:4px 3px 14px
+}
+.brand{font-family:Georgia,"Yu Mincho",serif;font-size:18px;letter-spacing:.05em}
+.round{
+  width:42px;height:42px;border:0;border-radius:50%;
+  background:rgba(255,255,255,.72);box-shadow:0 5px 18px rgba(51,34,17,.13)
+}
+.book{
+  position:relative;max-width:1000px;min-height:700px;margin:auto;overflow:hidden;
+  background:
+    radial-gradient(circle at 18% 12%,rgba(133,103,67,.035),transparent 24%),
+    repeating-linear-gradient(0deg,rgba(86,59,32,.022) 0 1px,transparent 1px 4px),
+    linear-gradient(90deg,#eadfce 0,#fffaf1 4%,#fffaf1 96%,#eadfce 100%);
+  border-radius:20px 28px 28px 20px;box-shadow:var(--shadow);
+  animation:open .7s cubic-bezier(.2,.8,.2,1) both
+}
+@keyframes open{from{opacity:.2;transform:perspective(1200px) rotateY(-10deg) scale(.98)}to{opacity:1;transform:none}}
+.book:after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.12;
+  background:radial-gradient(circle at 80% 90%,rgba(103,74,44,.13),transparent 24%)
+}
+.rings{
+  position:absolute;left:calc(50% - 8px);top:54px;bottom:54px;width:16px;z-index:8;
+  display:flex;flex-direction:column;justify-content:space-around;pointer-events:none
+}
+.rings i{
+  height:27px;border:3px solid rgba(66,58,51,.48);border-left:0;
+  border-radius:0 15px 15px 0;background:rgba(255,255,255,.22)
+}
+.page{
+  display:none;position:relative;z-index:2;min-height:700px;padding:60px 70px 74px;
+  animation:flip .42s ease
+}
+.page.active{display:block}
+@keyframes flip{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:76px;min-height:555px}
+.center{align-self:center;min-width:0}
+.eyebrow{font-size:11px;letter-spacing:.19em;color:#756d65;margin-bottom:18px}
+h1,h2,p{margin-top:0}
+h1,h2{font-family:Georgia,"Yu Mincho",serif;font-weight:500;word-break:keep-all;overflow-wrap:normal}
+h1{font-size:clamp(44px,6.6vw,70px);line-height:1.03;letter-spacing:-.035em}
+h2{font-size:clamp(29px,4vw,46px);line-height:1.34;letter-spacing:-.025em}
+.copy{font-size:clamp(16px,1.8vw,21px);line-height:2}
+.body{font-size:15px;line-height:1.95;color:#4f4943}
+.coverLeft{display:flex;flex-direction:column;justify-content:center}
+.coverLeft>p:not(.note){font-family:Georgia,"Yu Mincho",serif;letter-spacing:.12em}
+.note{
+  font-family:"Segoe Print","Bradley Hand","Comic Sans MS","Yu Gothic",cursive;
+  font-size:13px;color:#776e66;transform:none;letter-spacing:.02em
+}
+.art{
+  width:min(390px,92%);aspect-ratio:1;margin:auto;position:relative;
+  background:url("./assets/art/lovely-art-01.jpg") center/cover no-repeat;
+  clip-path:polygon(8% 14%,18% 5%,34% 8%,48% 2%,63% 8%,78% 5%,92% 17%,97% 34%,94% 51%,99% 67%,87% 86%,69% 94%,53% 99%,35% 94%,18% 98%,5% 84%,8% 65%,2% 49%,6% 31%);
+  filter:drop-shadow(0 14px 18px rgba(58,41,27,.14))
+}
+.art:after{
+  content:"";position:absolute;inset:0;box-shadow:inset 0 0 32px rgba(255,250,241,.34)
+}
+.field{margin:21px 0}
+label{display:block;font-size:14px;line-height:1.75;margin-bottom:7px}
+textarea{
+  width:100%;min-height:86px;padding:12px 4px;border:0;border-bottom:1px solid var(--line);
+  background:transparent;outline:0;resize:vertical;line-height:1.8;color:var(--ink)
+}
+textarea:focus{border-color:var(--orange)}
+.card{
+  padding:27px;border:1px solid var(--line);border-radius:22px;
+  background:rgba(255,255,255,.38);box-shadow:0 14px 35px rgba(75,53,34,.055)
+}
+.prompt{font:500 clamp(23px,3.2vw,36px)/1.48 Georgia,"Yu Mincho",serif;word-break:keep-all}
+.palette{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:22px 0}
+.sw{aspect-ratio:1;border-radius:50%;border:2px solid #fff9;box-shadow:0 3px 9px #0002}
+.sw.sel{outline:3px solid var(--ink);outline-offset:3px}
+.water{height:165px;border:1px solid var(--line);border-radius:18px;background:#fffaf2;overflow:hidden;position:relative}
+.blob{position:absolute;inset:22px 38px;border-radius:50% 43% 55% 46%;opacity:.72;filter:blur(1px);transform:rotate(-5deg)}
+.nav{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:17px}
+.pill{border:0;border-radius:999px;padding:12px 22px;background:#ffffffc4;box-shadow:0 5px 18px #33221122}
+.pill:disabled{opacity:.35}.dark{background:var(--ink);color:#fff}
+.num{font-size:12px;min-width:80px;text-align:center}
+.overlay{display:none;position:fixed;z-index:30;inset:0;padding:28px;background:#2a211a55;backdrop-filter:blur(8px)}
+.overlay.open{display:block}
+.panel{max-width:960px;max-height:90vh;overflow:auto;margin:auto;background:var(--paper);border-radius:24px;padding:28px;box-shadow:0 24px 70px #21180f55}
+.phead{display:flex;justify-content:space-between;align-items:center}
+.shelf{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:18px}
+.thumb{
+  position:relative;min-height:165px;border:0;border-radius:8px 16px 16px 8px;
+  padding:16px;text-align:left;color:var(--ink);background:#efd8c0;
+  box-shadow:7px 9px 20px #3223162b
+}
+.thumb:nth-child(4n+2){background:#c7d8d1}.thumb:nth-child(4n+3){background:#e3b6b8}.thumb:nth-child(4n){background:#e7c38f}
+.thumb.lock{filter:grayscale(.7);opacity:.55}
+.tname{font:18px Georgia,serif;margin-top:10px}
+.settings{margin:18px 0;padding:18px;border:1px solid var(--line);border-radius:16px}
+input[type=date]{padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.footer{text-align:center;font-size:12px;color:#655e57;margin-top:18px}
+.toast{display:none;position:fixed;z-index:60;left:50%;bottom:24px;transform:translateX(-50%);background:#2f2b27;color:#fff;padding:10px 18px;border-radius:999px}
+.mobile-tabs{display:none}
+
+@media(max-width:760px){
+  body{background:#efe9df}
+  .app{padding:0 0 82px}
+  .top{padding:12px 16px;background:rgba(255,250,241,.95);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  .brand{font-size:16px}
+  .book{
+    min-height:calc(100vh - 140px);width:100%;border-radius:0;box-shadow:none;
+    background:
+      radial-gradient(circle at 80% 6%,rgba(216,154,158,.11),transparent 20%),
+      repeating-linear-gradient(0deg,rgba(86,59,32,.018) 0 1px,transparent 1px 4px),
+      var(--paper)
+  }
+  .page{min-height:calc(100vh - 140px);padding:42px 30px 58px}
+  .grid{grid-template-columns:1fr;gap:30px;min-height:auto}
+  .rings{display:none}
+  h1{font-size:clamp(38px,11vw,54px);line-height:1.12}
+  h2{font-size:clamp(27px,7.6vw,36px);line-height:1.45}
+  .copy{font-size:16px;line-height:1.95}
+  .art{width:min(265px,80vw)}
+  .coverLeft{text-align:center}
+  .coverLeft .eyebrow{display:none}
+  .coverLeft>p:not(.note){margin-top:4px}
+  .note{text-align:center}
+  .nav{position:fixed;z-index:24;left:0;right:0;bottom:0;margin:0;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(255,250,241,.96);border-top:1px solid var(--line)}
+  .pill{padding:10px 16px}
+  .footer{display:none}
+  .card{padding:22px}
+  .prompt{font-size:27px}
+}
+
+</style>
+</head>
+<body>
+<div class="app"><header class="top"><div class="brand">● ● ● &nbsp; JOY Diary</div><div><button class="round" id="shelfBtn">▤</button><button class="round" id="settingsBtn">⚙</button></div></header>
+<main><section class="book"><div class="rings"><i></i><i></i><i></i><i></i><i></i><i></i></div><div id="pages"></div></section>
+<div class="nav"><button class="pill" id="prev">← 前へ</button><span class="num" id="num"></span><button class="pill" id="next">次へ →</button></div><div class="footer">今日は、ここへ戻ってこられただけでもいい。</div></main></div>
+<div class="overlay" id="shelfOverlay"><div class="panel"><div class="phead"><h3>あなたの本棚</h3><button class="round close">×</button></div><div class="shelf" id="shelf"></div></div></div>
+<div class="overlay" id="settingsOverlay"><div class="panel" style="max-width:560px"><div class="phead"><h3>設定</h3><button class="round close">×</button></div><div class="settings"><label>プレビュー日</label><input type="date" id="previewDate"><p class="body">通常は今日の日付まで開きます。未来ページの確認はここだけで行えます。</p></div><div class="settings"><button class="pill" id="reset">この端末の入力をリセット</button></div></div></div>
+<div class="toast" id="toast">保存しました</div>
+<script>
+const V="20260725-step3",START=new Date("2026-07-30T00:00:00"),END=new Date("2026-09-12T19:00:00");
+const prompts=["今日の色は？","今日、心がほどけた瞬間は？","今日、美味しかった飲みものは？","今日、耳に残った音は？","今日、愛おしさがこみ上げたことは？","今日、目が止まった色の組み合わせは？","今日、身体が喜んだことは？","今日、持ち帰りたい景色は？","今日、私をくつろがせた瞬間は？","今日、五感が喜んだことは？","今日、美味しかった味つけは？","今日、人生っていいなと思った瞬間は？","今日、出会った好きな言葉は？","今日、気持ちよかったことは？","今日の小さな感動は？","今日、この身体があってよかったと思えたことは？","今日、好きだった光は？","今日、触れて心地よかったものは？","今日、笑ったことは？","今日、自分らしかった瞬間は？","今日、遠慮なく受け取れたものは？","今日、また味わいたいことは？","今日の静けさは？","今日、心が動いた質感は？","今日、ありがとうと思えたことは？","今日、自分にやさしくできた瞬間は？","今日のJOYは？","今日、委ねられたことは？","今日、流れを感じた瞬間は？","今日、好きだった余白は？","今日、連れて帰りたい香りは？","今日、世界が見せてくれた宝物は？","今日、もっと受け取りたいと思ったものは？","今日、心地よかった温度は？","今日、安心した瞬間は？","今日、好きだった一口は？","今日、思わず立ち止まったものは？","今日、自分の『好き』を知った瞬間は？","今日、豊かだなぁと思ったことは？","今日を一色で残すなら？","今日、未来の自分に見せたいものは？","今日、心に残しておきたい一文は？","今日、身体の力が抜けた瞬間は？","今日、受け取った優しさは？","今日、あなたが創った心地よさは？"];
+const colors=["#e77d42","#8caec1","#d87886","#9bbbaa","#8c9271","#f1c66c","#8d4d58","#d9c9a7","#4f646f","#db8e69","#b8a6c9","#718c7d"];
+const key="joyDiary_"+V,state=JSON.parse(localStorage.getItem(key)||"{}");let current=Number(localStorage.getItem("joyPage_"+V)||0);
+const esc=s=>(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;");
+function field(k,p="ここに、今のあなたの言葉を。"){return `<textarea data-key="${k}" placeholder="${p}">${esc(state[k])}</textarea>`}
+function cover(){return `<article class="page"><div class="grid"><div class="center coverLeft"><div class="eyebrow">A LIVING ART BOOK FOR YOUR JOURNEY</div><h1>You are likes,<br>Your Joy, Your Life.</h1><p>Life is a Journey.</p><p class="note">your likes, your joy, your life.</p></div><div class="center"><div class="art" aria-label="lovely original art"></div></div></div></article>`}
+function opening(){return `<article class="page"><div style="max-width:760px;margin:auto" class="center"><div class="eyebrow">JOY DIARY · OPENING</div><h2>Life is a Journey.</h2><div class="copy"><p><b>人生は、自分の「好き」を受け取り続ける、豊かな旅。</b></p><p>あなたの「好き」や「JOY」を、<br>遠慮なく集めていこう。</p><p>あなたの旅には、<br>あなたがまだ気づいていない宝物が、<br>きっと、たくさん、待っているから。</p></div><p class="note">Let's begin your journey.</p></div></article>`}
+function intention(){return `<article class="page"><div class="grid"><div class="center"><div class="eyebrow">OPENING INTENTION</div><h2>観察者から、<br>意図的創造者へ</h2><p class="body">答えをきれいにまとめなくていい。<br>今ここにある感覚を、そのまま置いていこう。</p></div><div class="center"><div class="field"><label>この２泊３日で<br><b>何を受け取りたい？</b></label>${field("open1")}</div><div class="field"><label><b>何を感じたい？</b></label>${field("open2")}</div><div class="field"><label>さらに、このJOY RETREATプログラム全体を終えて<br><b>どんな自分を受け取りたい？</b></label>${field("open3")}</div></div></div></article>`}
+function daily(d,i){const ds=d.toISOString().slice(0,10),k="d_"+ds,p=prompts[i%prompts.length],sel=state[k+"_color"]||colors[i%colors.length],date=`${d.getMonth()+1}/${d.getDate()}`;return `<article class="page" data-date="${d.toISOString()}"><div class="grid"><div class="center"><div class="eyebrow">${date} · TODAY'S JOURNEY</div><h2>今日という旅を<br>どんな気分で歩く？</h2><div class="field"><label><b>今日の意図</b></label>${field(k+"_intent","今日、感じていたいフィーリング。")}</div><div class="field"><label><b>今日、受け取ったJOY</b></label>${field(k+"_joy","小さなことも、遠慮なく。")}</div><div class="field"><label><b>今、何を感じている？</b></label>${field(k+"_feel","うまく言葉にならなくても大丈夫。")}</div></div><div class="center"><div class="card"><div class="eyebrow">TODAY'S LITTLE PROMPT</div><div class="prompt">${p}</div>${p.includes("色")?`<div class="palette">${colors.map(c=>`<button class="sw ${c===sel?"sel":""}" data-color="${c}" data-key="${k}_color" style="background:${c}"></button>`).join("")}</div><div class="water"><div class="blob" style="background:${sel}"></div></div>`:field(k+"_prompt","今日、心に残ったものを自由に。")}</div><p class="note" style="margin-top:20px">全部書かなくていい。今日は、色だけでもいい。</p></div></div></article>`}
+function finalPage(){return `<article class="page"><div class="grid"><div class="center"><div class="eyebrow">THE JOURNEY CONTINUES</div><h2>最初に置いた、<br>あなたの意図。</h2><div class="card body"><p><b>受け取りたかったもの</b><br>${esc(state.open1)||"—"}</p><p><b>感じたかったこと</b><br>${esc(state.open2)||"—"}</p><p><b>受け取りたかった自分</b><br>${esc(state.open3)||"—"}</p></div></div><div class="center"><div class="eyebrow">FINAL QUESTION</div><div class="prompt">今思う、<br>あなたにとっての人生とは？</div><div class="field">${field("final","今のあなたの言葉で。")}</div><button class="pill dark" id="receive">Todayを受け取る</button></div></div></article>`}
+function build(){let a=[cover(),opening(),intention()],d=new Date(START),i=0;while(d<=END){a.push(daily(new Date(d),i++));d.setDate(d.getDate()+1)}a.push(finalPage());pages.innerHTML=a.join("");bind()}
+function bind(){document.querySelectorAll("[data-key]").forEach(el=>{if(el.classList.contains("sw"))el.onclick=()=>{state[el.dataset.key]=el.dataset.color;save();build();show(current)};else el.oninput=()=>{state[el.dataset.key]=el.value;save()}});document.getElementById("receive")?.addEventListener("click",()=>show(3))}
+function save(){localStorage.setItem(key,JSON.stringify(state));localStorage.setItem("joyPage_"+V,current);toast.style.display="block";clearTimeout(window.t);window.t=setTimeout(()=>toast.style.display="none",800)}
+function now(){return previewDate.value?new Date(previewDate.value+"T23:59:59"):new Date()}
+function max(){const n=now(),all=document.querySelectorAll(".page").length;if(n<START)return 2;if(n>=END)return all-1;return Math.min(3+Math.floor((n-START)/86400000),all-2)}
+function show(i){const a=[...document.querySelectorAll(".page")];current=Math.max(0,Math.min(i,max()));a.forEach((p,n)=>p.classList.toggle("active",n===current));prev.disabled=current===0;next.disabled=current===max();num.textContent=`${current+1} / ${a.length}`;localStorage.setItem("joyPage_"+V,current)}
+function shelfBuild(){const a=[...document.querySelectorAll(".page")],m=max();shelf.innerHTML=a.map((p,i)=>{const dt=p.dataset.date?new Date(p.dataset.date):null,name=i===0?"JOY Diary":i===1?"Life is a Journey":i===2?"Opening Intention":i===a.length-1?"Final Page":`${dt.getMonth()+1}/${dt.getDate()}`;return `<button class="thumb ${i>m?"lock":""}" data-page="${i}" ${i>m?"disabled":""}><small>${dt?dt.toLocaleDateString("ja-JP",{month:"long",day:"numeric"}):""}</small><div class="tname">${name}</div>${i>m?"<span style='position:absolute;right:12px;bottom:12px'>🔒</span>":""}</button>`}).join("");shelf.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>{show(+b.dataset.page);shelfOverlay.classList.remove("open")})}
+prev.onclick=()=>show(current-1);next.onclick=()=>show(current+1);shelfBtn.onclick=()=>{shelfBuild();shelfOverlay.classList.add("open")};settingsBtn.onclick=()=>settingsOverlay.classList.add("open");document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".overlay").classList.remove("open"));previewDate.onchange=()=>show(current);reset.onclick=()=>{if(confirm("この端末に保存した入力をすべて消しますか？")){localStorage.removeItem(key);localStorage.removeItem("joyPage_"+V);location.reload()}}
+build();show(current);if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=step3"));
+</script></body></html>

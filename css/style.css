@@ -162,3 +162,41 @@ dialog::backdrop{background:rgba(40,32,25,.4);backdrop-filter:blur(7px)}
 .simple-book span{font-family:Georgia,'Times New Roman',serif;font-size:clamp(12px,3vw,17px);letter-spacing:.02em;color:#49413b;margin:0}
 .simple-book:hover,.simple-book:focus-visible{transform:translateY(-2px);outline:2px solid rgba(239,79,145,.52);outline-offset:2px}
 @media(max-width:420px){.simple-shelf{gap:10px 7px}.simple-book span{font-size:12px}}
+
+
+/* v0.15 life comes alive */
+.intent-button{min-width:190px;background:rgba(255,255,255,.92)!important;border:2px solid #ef4f91!important;color:#d93378!important;font-weight:700;letter-spacing:.08em;box-shadow:0 8px 22px rgba(86,44,58,.16)!important}
+.intent-button:hover{background:#fff8fb!important;border-color:#df327b!important}
+.final-question{position:relative;padding-bottom:205px}
+.lovely-reveal{position:absolute;right:20px;bottom:24px;width:150px;margin:0;text-align:center;animation:lovelyIn .7s cubic-bezier(.2,.8,.2,1) both}
+.lovely-reveal.show{display:block}
+.lovely-reveal img{width:96px;max-width:none;height:auto;transform-origin:50% 92%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.08));animation:lovelySway 3.8s ease-in-out infinite}
+.lovely-reveal p{font-family:"Comic Sans MS","Klee One","Yu Gothic",cursive;font-size:13px;font-weight:500;letter-spacing:.08em;color:#4f4640;margin:0 0 5px;transform:rotate(-5deg)}
+@keyframes lovelySway{0%,100%{transform:rotate(-3deg) translateX(-2px)}50%{transform:rotate(3deg) translateX(2px)}}
+@media(prefers-reduced-motion:reduce){.lovely-reveal img{animation:none}}
+
+.library-panel{background:linear-gradient(180deg,#fffdf9,#fbf4ea)}
+.shelf-intro{text-align:center;color:#766b62;font-size:13px;line-height:1.8}
+.life-shelf{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px 8px;padding:18px 5px 30px;align-items:end;background:repeating-linear-gradient(to bottom,transparent 0 130px,rgba(125,78,43,.12) 130px 137px,rgba(113,68,36,.30) 137px 144px,transparent 144px 166px)}
+.life-book{--tilt:0deg;position:relative;align-self:end;width:100%;height:112px;border:0;border-radius:4px 10px 8px 3px;padding:0;overflow:hidden;transform:rotate(var(--tilt));transform-origin:50% 100%;box-shadow:3px 7px 12px rgba(66,43,27,.19),inset 7px 0 0 rgba(75,50,36,.10);transition:transform .2s ease,filter .2s ease;isolation:isolate}
+.life-book:before,.life-book:after{content:"";position:absolute;pointer-events:none;z-index:0}
+.life-book:before{inset:8px 7px 9px 11px;border:1px solid rgba(84,57,42,.14);border-radius:2px 7px 6px 2px}
+.life-book:after{width:38px;height:12px;right:-7px;top:15px;background:rgba(245,219,167,.72);transform:rotate(-8deg);box-shadow:0 1px 2px rgba(80,58,40,.1)}
+.life-book:hover,.life-book:focus-visible{transform:translateY(-7px) rotate(var(--tilt)) scale(1.035);filter:saturate(1.08);outline:2px solid rgba(239,79,145,.55);outline-offset:3px;z-index:4}
+.life-book:active{transform:translateY(-2px) rotate(var(--tilt)) scale(.99)}
+.book-date{position:absolute;z-index:3;left:50%;bottom:10px;transform:translateX(-50%) rotate(-1deg);min-width:42px;padding:3px 6px;background:rgba(255,253,247,.87);border-radius:2px;font-family:"Comic Sans MS","Klee One","Yu Gothic",cursive;font-size:13px;font-weight:700;color:#403833;box-shadow:0 2px 5px rgba(64,45,34,.09)}
+.book-mark{position:absolute;z-index:2;left:18%;top:19%;width:54%;height:23%;border-radius:48% 52% 45% 55%;opacity:.8;transform:rotate(-8deg)}
+.size-small{height:95px;width:88%;justify-self:center}.size-medium{height:108px}.size-tall{height:124px}.size-wide{height:103px;width:96%;justify-self:center}
+.cover-paint{background:linear-gradient(145deg,#f8d6dd 0 33%,#f6eee4 33% 60%,#a8d5d4 60% 100%)}
+.cover-paint .book-mark{background:#ef7396;box-shadow:25px 17px 0 -5px #efbd65,-12px 34px 0 -8px #70b8b5}
+.cover-tape{background:linear-gradient(30deg,#f5e0c1,#f8c9c2 52%,#e8eff0)}
+.cover-tape .book-mark{height:13px;width:72%;left:12%;top:29%;border-radius:0;background:rgba(255,246,203,.72);transform:rotate(8deg);box-shadow:0 28px 0 rgba(224,182,194,.7)}
+.cover-doodle{background:radial-gradient(circle at 72% 18%,#f09ab0 0 6px,transparent 7px),radial-gradient(circle at 25% 64%,#72b9bd 0 5px,transparent 6px),linear-gradient(145deg,#f7f0df,#f4d3c9)}
+.cover-doodle .book-mark{border:2px solid rgba(49,44,42,.55);background:transparent;border-radius:50%;width:45%;height:36%;left:30%;top:22%;transform:rotate(12deg)}
+.cover-paper{background:linear-gradient(120deg,#d5c09c 0 38%,#f4e3cf 38% 65%,#e7a2a7 65%)}
+.cover-paper .book-mark{background:rgba(255,255,255,.58);width:68%;height:48%;left:18%;top:17%;border-radius:1px;transform:rotate(-4deg);box-shadow:0 0 0 1px rgba(94,65,45,.08)}
+.cover-confetti{background:radial-gradient(circle at 20% 20%,#ed829f 0 4px,transparent 5px),radial-gradient(circle at 78% 31%,#f2c365 0 5px,transparent 6px),radial-gradient(circle at 32% 70%,#75b9b7 0 4px,transparent 5px),linear-gradient(135deg,#f9eee9,#f1d5df)}
+.cover-confetti .book-mark{background:rgba(255,255,255,.66);width:59%;height:37%;left:22%;top:24%;transform:rotate(3deg)}
+.cover-wash{background:linear-gradient(160deg,rgba(243,122,153,.82),rgba(243,122,153,.12) 38%,transparent 39%),linear-gradient(25deg,#f7e4cc 0 55%,#8bc3c2 56% 77%,#f5d3da 78%)}
+.cover-wash .book-mark{background:rgba(255,250,242,.75);width:64%;height:32%;left:19%;top:24%;transform:rotate(-2deg)}
+@media(max-width:420px){.life-shelf{gap:18px 6px;background:repeating-linear-gradient(to bottom,transparent 0 112px,rgba(125,78,43,.12) 112px 118px,rgba(113,68,36,.30) 118px 125px,transparent 125px 143px)}.life-book{height:96px}.size-small{height:82px}.size-medium{height:92px}.size-tall{height:106px}.size-wide{height:88px}.book-date{font-size:11px;min-width:36px}.final-question{padding-bottom:185px}.lovely-reveal{right:12px;bottom:18px;width:132px}.lovely-reveal img{width:86px}.lovely-reveal p{font-size:12px}}

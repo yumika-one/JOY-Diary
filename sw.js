@@ -1,9 +1,9 @@
-const CACHE='joy-diary-v14-polish';
+const CACHE='joy-diary-v15-life';
 const ASSETS=[
   './','./index.html','./manifest.webmanifest','./css/style.css','./js/app.js',
-  './assets/ui/cover.webp?v=14','./assets/ui/opening.webp?v=14',
-  './assets/ui/journey-top.webp?v=14','./assets/ui/journey-center.webp?v=14','./assets/ui/journey-bottom.webp?v=14',
-  './assets/ui/daily.webp?v=14','./assets/ui/lovely-final.webp?v=14'
+  './assets/ui/cover.webp?v=15','./assets/ui/opening.webp?v=15',
+  './assets/ui/journey-top.webp?v=15','./assets/ui/journey-center.webp?v=15','./assets/ui/journey-bottom.webp?v=15',
+  './assets/ui/daily.webp?v=15','./assets/ui/lovely-final.webp?v=15'
 ];
 self.addEventListener('install',event=>{
   self.skipWaiting();

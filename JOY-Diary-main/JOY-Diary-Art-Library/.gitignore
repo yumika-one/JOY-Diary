@@ -1,0 +1,6 @@
+# Place artwork here
+assets/art/originals/*
+!assets/art/originals/.gitkeep
+
+assets/art/favorites/*
+!assets/art/favorites/.gitkeep

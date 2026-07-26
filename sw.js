@@ -1,9 +1,9 @@
-const CACHE='joy-diary-v13-root-fix';
+const CACHE='joy-diary-v14-polish';
 const ASSETS=[
   './','./index.html','./manifest.webmanifest','./css/style.css','./js/app.js',
-  './assets/ui/cover.webp?v=13','./assets/ui/opening.webp?v=13',
-  './assets/ui/journey-top.webp?v=13','./assets/ui/journey-center.webp?v=13','./assets/ui/journey-bottom.webp?v=13',
-  './assets/ui/daily.webp?v=13','./assets/ui/library.webp?v=13','./assets/ui/lovely-final.webp?v=13'
+  './assets/ui/cover.webp?v=14','./assets/ui/opening.webp?v=14',
+  './assets/ui/journey-top.webp?v=14','./assets/ui/journey-center.webp?v=14','./assets/ui/journey-bottom.webp?v=14',
+  './assets/ui/daily.webp?v=14','./assets/ui/lovely-final.webp?v=14'
 ];
 self.addEventListener('install',event=>{
   self.skipWaiting();

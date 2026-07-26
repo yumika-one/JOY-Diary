@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f4eee4">
-<link rel="manifest" href="./manifest.webmanifest?v=v12">
-<title>JOY Diary · v0.13</title>
+<link rel="manifest" href="./manifest.webmanifest?v=v14">
+<title>JOY Diary · v0.14</title>
 <style>
 :root{
   --paper:#fffaf1;--paper-deep:#f5ecdf;--ink:#342d27;--muted:#786f66;
@@ -430,7 +430,7 @@ textarea:focus{border-color:var(--coral);background:linear-gradient(180deg,rgba(
 }
 
 
-/* v0.13 — Root-path cache fix */
+/* v0.14 — polish and layout fixes */
 :root{--paper:#fff;--paper-deep:#f7f3ee;--pink:#ef4f91;--mint:#75cbb9;--gold:#f5b72f;--ink:#332d2a}
 body{background:#ece8e2}
 .app{padding:0 0 88px}
@@ -440,10 +440,10 @@ body{background:#ece8e2}
 .page{min-height:760px;padding:0;background-color:#fff;background-repeat:no-repeat;background-position:top center;background-size:100% auto;overflow:hidden}
 .spread{display:grid;grid-template-columns:1fr;gap:24px;min-height:0}
 .left,.right{padding:0}
-.cover-page{position:relative;aspect-ratio:9/16;background-image:url('./assets/ui/cover.webp?v=13');background-size:cover;background-position:center}
+.cover-page{position:relative;aspect-ratio:9/16;background-image:url('./assets/ui/cover.webp?v=14');background-size:cover;background-position:center}
 .cover-action{position:absolute;left:50%;bottom:5.6%;transform:translateX(-50%);z-index:3}
 .cover-start{min-width:190px;background:rgba(255,255,255,.9);border:2px solid #ef4f91;color:#d93378;font-weight:700;box-shadow:0 8px 22px rgba(86,44,58,.16)}
-.opening-page{background-image:url('./assets/ui/opening.webp?v=13');background-size:100% 100%;min-height:995px}
+.opening-page{background-image:url('./assets/ui/opening.webp?v=14');background-size:100% 100%;min-height:995px}
 .opening-content{padding:105px 38px 55px;display:flex;flex-direction:column;min-height:995px}
 .opening-copy-block{text-align:center;max-width:430px;margin:0 auto}
 .opening-copy-block h2{font-size:34px;color:#cf2f70;line-height:1.42;margin-bottom:18px}
@@ -456,16 +456,16 @@ body{background:#ece8e2}
 .art-field-pink{border:2px solid rgba(235,90,145,.75)}
 .art-field-yellow{border:2px solid rgba(238,179,48,.78)}
 .opening-start{justify-self:center;margin-top:2px}
-.journey-page{position:relative;min-height:2600px;background-image:url('./assets/ui/journey-center.webp?v=13');background-size:100% 100%;background-position:center}
+.journey-page{position:relative;min-height:2600px;background-image:url('./assets/ui/journey-center.webp?v=14');background-size:100% 100%;background-position:center}
 .journey-page:before,.journey-page:after{content:'';position:absolute;left:0;right:0;z-index:0;background-repeat:no-repeat;background-size:100% 100%;pointer-events:none}
-.journey-page:before{top:0;height:255px;background-image:url('./assets/ui/journey-top.webp?v=13')}
-.journey-page:after{bottom:0;height:185px;background-image:url('./assets/ui/journey-bottom.webp?v=13')}
+.journey-page:before{top:0;height:255px;background-image:url('./assets/ui/journey-top.webp?v=14')}
+.journey-page:after{bottom:0;height:185px;background-image:url('./assets/ui/journey-bottom.webp?v=14')}
 .journey-wrap{position:relative;z-index:1;padding:150px 38px 240px;max-width:500px}
 .journey-wrap h2{font-size:36px;color:#d63678}
 .progress-card,.stop{background:rgba(255,255,255,.82);backdrop-filter:blur(2px)}
 .progress-card{border-radius:18px}
 .stop{padding-top:8px;padding-right:10px;border-radius:0 14px 14px 0}
-.daily-page{background-image:url('./assets/ui/daily.webp?v=13');background-size:100% 100%;min-height:1120px}
+.daily-page{background-image:url('./assets/ui/daily.webp?v=14');background-size:100% 100%;min-height:1120px}
 .daily-spread{padding:62px 34px 70px}
 .daily-heading{text-align:center;margin-bottom:18px}
 .daily-title{font-size:34px;color:#d63678}
@@ -473,7 +473,7 @@ body{background:#ece8e2}
 .daily-field,.little-card{background:rgba(255,255,255,.78);backdrop-filter:blur(2px);border:1px solid rgba(225,108,147,.18);border-radius:18px;padding:16px 18px}
 .daily-field textarea{min-height:105px}
 .little-card{margin-top:2px}
-.final-page{background-image:url('./assets/ui/daily.webp?v=13');background-size:100% 100%;min-height:1080px}
+.final-page{background-image:url('./assets/ui/daily.webp?v=14');background-size:100% 100%;min-height:1080px}
 .final-layout{padding:62px 34px 72px;display:grid;gap:28px}
 .final-copy,.final-question{background:rgba(255,255,255,.78);backdrop-filter:blur(2px);border-radius:22px;padding:22px}
 .final-question{text-align:center}
@@ -496,6 +496,33 @@ body{background:#ece8e2}
 @media(min-width:761px){.app{padding-top:18px}.top{border-radius:14px 14px 0 0}.book{border-radius:0 0 20px 20px}.page{min-height:880px}.cover-page{min-height:auto}}
 @media(max-width:420px){.opening-content{padding:85px 24px 40px}.opening-copy-block h2{font-size:29px}.opening-copy-block .body{font-size:12px}.journey-wrap{padding-left:26px;padding-right:26px}.daily-spread,.final-layout{padding-left:22px;padding-right:22px}}
 
+
+/* v0.14 feedback fixes */
+.opening-copy-block .note{transform:none!important;font-style:normal!important;display:block}
+.opening-page{background-size:100% auto;min-height:995px}
+.journey-page{
+  background-size:100% auto;
+  background-repeat:repeat-y;
+  background-position:top center;
+}
+.journey-page:before,.journey-page:after{width:100%;height:auto;background-size:100% auto}
+.journey-page:before{aspect-ratio:989/453}
+.journey-page:after{aspect-ratio:990/326}
+.daily-page,.final-page{background-size:100% auto;background-repeat:repeat-y}
+.final-layout{grid-template-columns:minmax(0,1fr)!important;width:100%;max-width:100%;overflow:visible}
+.final-copy,.final-question,.intention-echo,.intention-echo .quote{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:normal}
+.library-art{overflow:visible;background:transparent}
+.simple-shelf{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px 10px;padding:10px 4px 18px}
+.simple-book{
+  position:relative;aspect-ratio:3/4.15;border:0;border-radius:4px 10px 10px 4px;
+  background:linear-gradient(90deg,rgba(77,61,51,.14) 0 8%,rgba(255,255,255,.15) 8% 10%,#f4eee5 10% 100%);
+  box-shadow:3px 5px 10px rgba(55,42,31,.13);display:grid;place-items:center;padding:4px;
+}
+.simple-book:after{content:'';position:absolute;inset:7px 6px 7px 10px;border:1px solid rgba(70,56,46,.12);border-radius:2px 7px 7px 2px;pointer-events:none}
+.simple-book span{font-family:Georgia,'Times New Roman',serif;font-size:clamp(12px,3vw,17px);letter-spacing:.02em;color:#49413b;margin:0}
+.simple-book:hover,.simple-book:focus-visible{transform:translateY(-2px);outline:2px solid rgba(239,79,145,.52);outline-offset:2px}
+@media(max-width:420px){.simple-shelf{gap:10px 7px}.simple-book span{font-size:12px}}
+
 </style>
 </head>
 <body>
@@ -513,12 +540,12 @@ body{background:#ece8e2}
   </main>
 </div>
 
-<div class="overlay" id="shelfOverlay"><div class="panel library-panel"><div class="phead"><h3>あなたの本棚</h3><button class="round close">×</button></div><p class="shelf-intro">45日分の小さなアートブック。読みたい一冊をタップしてください。</p><div class="library-art" id="shelf" aria-label="45日分の本棚"></div></div></div>
+<div class="overlay" id="shelfOverlay"><div class="panel library-panel"><div class="phead"><h3>あなたの本棚</h3><button class="round close">×</button></div><p class="shelf-intro">日付だけを記した45冊。開きたい日をタップしてください。</p><div class="library-art" id="shelf" aria-label="45日分の本棚"></div></div></div>
 <div class="overlay" id="settingsOverlay"><div class="panel" style="max-width:560px"><div class="phead"><h3>設定</h3><button class="round close">×</button></div><div class="settings"><div class="badge">REVIEW MODE · 全ページ開放</div><label>プレビュー日</label><input type="date" id="previewDate"><p class="body">レビュー版では、すべてのページを開けます。プレビュー日を変えると、その日を「今日」としてJourneyの現在地を確認できます。</p></div><div class="settings"><button class="pill" id="reset">この端末の入力をリセット</button></div></div></div>
 <div class="toast" id="toast">受け取りました。</div>
 
 <script>
-const VERSION="20260730-v12";
+const VERSION="20260730-v14";
 const START=new Date("2026-07-31T00:00:00");
 const END=new Date("2026-09-12T23:59:59");
 const prompts=[
@@ -565,8 +592,8 @@ return `<article class="page opening-page">
     <div class="opening-copy-block">
       <div class="eyebrow">OPENING INTENTION</div>
       <h2>この旅の始まりに、<br>意図を置く。</h2>
-      <p class="body">前回のJOY Meetingで決めた意図を、ここに書き込んでみましょう。</p>
-      <p class="body">このプログラムは、あなたが<strong>意図的創造者として生きる習慣</strong>を育てていくためです。<br>フィーリングをゴールに歩んでいきましょう。</p>
+      <p class="body">前回のJOY Meetingで決めた意図を、<br>ここに書き込んでみましょう。</p>
+      <p class="body">ここでは、あなたが<strong>意図的創造者として生きること</strong>をサポートします。<br>フィーリングをゴールに歩んでいきましょう。</p>
       <p class="note">この意図は、旅の途中でいつでも書き直せます。</p>
     </div>
     <div class="opening-fields">
@@ -607,7 +634,7 @@ function journey(){
     </div>
     <div class="timeline">
       <div class="chapter">PREPARATION</div>
-      ${stop("2026-07-31","7月31日","準備を楽しむ、最後の1日。","「まだ始まっていない」を体験できる、最後の日。")}
+      ${stop("2026-07-31","7月31日","準備を楽しむ最後の1日","「まだ始まっていない」を体験できる、最後の日。")}
 
       <div class="chapter">JOY RETREAT</div>
       ${stop("2026-08-01","8月1日 · DAY 1","委ねて味わうを体験する1日")}
@@ -621,8 +648,8 @@ function journey(){
       ${stop("2026-08-08","8月8日","JOY Meeting②","リトリートから1週間。<br>今感じている震えと気づきを受け取る日。","meeting")}
 
       <div class="chapter">JOY IN EVERYDAY LIFE</div>
-      ${stop("2026-08-09","8月9日〜","JOYを、日常に育てる。","リトリートで受け取った心地よさを、日常の中でさらに育てていく。")}
-      ${stop("2026-09-12","9月12日","今思う、あなたにとっての人生とは？","この旅の今を、自分の言葉で受け取る日。","meeting")}
+      ${stop("2026-08-09","8月9日〜","JOYを日常に育てる","リトリートで受け取った心地よさを、日常の中でさらに育てていく。")}
+      ${stop("2026-09-12","9月12日","今思うあなたにとっての人生とは？","この旅の今を、自分の言葉で受け取る日。","meeting")}
     </div>
   </div></article>`}
 
@@ -630,12 +657,12 @@ function daily(d,i){
   const ds=localDateKey(d),k="d_"+ds;
   const date=`${d.getMonth()+1}月${d.getDate()}日`;
 
-  let title="JOYを、日常に育てる。";
+  let title="JOYを日常に育てる";
   let subtitle="";
   let story="";
 
   if(ds==="2026-07-31"){
-    title="準備を楽しむ、最後の1日。";
+    title="準備を楽しむ最後の1日";
     story=`<div class="daily-story">
       <p>明日から、JOY RETREATが始まります。</p>
       <p><b>今日が、「まだ始まっていない」を体験できる、最後の日です。</b></p>
@@ -661,7 +688,7 @@ function daily(d,i){
     title="JOY Meeting②";
     subtitle="リトリートから1週間。今感じている震えと気づきを受け取る日";
   } else if(ds==="2026-09-12"){
-    title="今思う、あなたにとっての人生とは？";
+    title="今思うあなたにとっての人生とは？";
   }
 
   return `<article class="page daily-page" data-date="${ds}"><div class="spread daily-spread">
@@ -669,7 +696,7 @@ function daily(d,i){
       <div class="daily-heading">
         <div class="daily-date">${date}</div>
         <div class="daily-kicker">TODAY'S JOURNEY</div>
-        <h2 class="daily-title">${title}</h2>
+        <h2 class="daily-title">${title.replace(/[、。]/g,"")}</h2>
         ${subtitle?`<p class="daily-subtitle">${subtitle}</p>`:""}
       </div>
       ${story}
@@ -695,7 +722,7 @@ function daily(d,i){
 
 function finalPage(){
 return `<article class="page final-page"><div class="final-layout">
-  <div class="final-copy"><div class="eyebrow">THE JOURNEY CONTINUES</div><h2>旅の入口に置いた、<br>あなたの意図。</h2>
+  <div class="final-copy"><div class="eyebrow">THE JOURNEY CONTINUES</div><h2>旅の入口に置いた<br>あなたの意図</h2>
     <div class="intention-echo">
       <div class="eyebrow">FROM YOUR OPENING INTENTION</div>
       <div class="quote">${esc(state.open1)||"ここに、旅のはじまりに置いた、あなたの言葉が戻ってきます。"}</div>
@@ -708,9 +735,9 @@ return `<article class="page final-page"><div class="final-layout">
   <div class="final-question"><div class="eyebrow">FINAL QUESTION</div>
     <h2 class="final-question-title">今思う、<br>あなたにとっての人生とは？</h2>
     <div class="field">${field("final","今のあなたの言葉で。")}</div>
-    <button class="pill dark" id="meetYourself">この私に、会いに行く。</button>
+    <button class="pill dark" id="meetYourself">この私に会いに行く</button>
     <div class="lovely-reveal" id="lovelyReveal" aria-live="polite">
-      <img src="./assets/ui/lovely-final.webp?v=13" alt="絵筆を持ったラブリーくん">
+      <img src="./assets/ui/lovely-final.webp?v=14" alt="絵筆を持ったラブリーくん">
       <p>おかえり。</p>
     </div>
   </div>
@@ -758,21 +785,22 @@ function show(i){
 }
 function shelfBuild(){
   const dailyPages=[...document.querySelectorAll('.page[data-date]')];
-  shelf.innerHTML=`<img src="./assets/ui/library.webp?v=13" alt="45冊のアートブックが並ぶ本棚"><div class="library-hotspots"></div>`;
-  const hotspots=shelf.querySelector('.library-hotspots');
+  shelf.innerHTML='<div class="simple-shelf" aria-label="45日分の本棚"></div>';
+  const grid=shelf.querySelector('.simple-shelf');
   dailyPages.forEach((page,i)=>{
+    const ds=page.dataset.date;
+    const [,m,d]=ds.split('-').map(Number);
     const b=document.createElement('button');
     b.type='button';
-    b.className='library-hotspot';
-    b.setAttribute('aria-label',`${i+1}日目を開く`);
-    b.style.setProperty('--col',i%5);
-    b.style.setProperty('--row',Math.floor(i/5));
+    b.className='simple-book';
+    b.innerHTML=`<span>${m}/${d}</span>`;
+    b.setAttribute('aria-label',`${m}月${d}日を開く`);
     b.addEventListener('click',()=>{
       const index=[...document.querySelectorAll('.page')].indexOf(page);
       show(index);
       shelfOverlay.classList.remove('open');
     });
-    hotspots.appendChild(b);
+    grid.appendChild(b);
   });
 }
 prev.onclick=()=>show(current-1);
@@ -783,7 +811,7 @@ document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".overlay
 previewDate.onchange=()=>{build();show(Math.min(current,max()))};
 reset.onclick=()=>{if(confirm("この端末に保存した入力をすべて消しますか？")){localStorage.removeItem(storageKey);localStorage.removeItem("joyPage_"+VERSION);location.reload()}};
 build();show(current);
-if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v13"));
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v14"));
 
 // v0.6 interactions
 function openCurrentToday(){

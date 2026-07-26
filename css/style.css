@@ -135,3 +135,30 @@ dialog::backdrop{background:rgba(40,32,25,.4);backdrop-filter:blur(7px)}
   .art-panel{min-height:270px}
   .cover-copy{min-height:250px}
 }
+
+
+/* v0.14 feedback fixes */
+.opening-copy-block .note{transform:none!important;font-style:normal!important;display:block}
+.opening-page{background-size:100% auto;min-height:995px}
+.journey-page{
+  background-size:100% auto;
+  background-repeat:repeat-y;
+  background-position:top center;
+}
+.journey-page:before,.journey-page:after{width:100%;height:auto;background-size:100% auto}
+.journey-page:before{aspect-ratio:989/453}
+.journey-page:after{aspect-ratio:990/326}
+.daily-page,.final-page{background-size:100% auto;background-repeat:repeat-y}
+.final-layout{grid-template-columns:minmax(0,1fr)!important;width:100%;max-width:100%;overflow:visible}
+.final-copy,.final-question,.intention-echo,.intention-echo .quote{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:normal}
+.library-art{overflow:visible;background:transparent}
+.simple-shelf{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px 10px;padding:10px 4px 18px}
+.simple-book{
+  position:relative;aspect-ratio:3/4.15;border:0;border-radius:4px 10px 10px 4px;
+  background:linear-gradient(90deg,rgba(77,61,51,.14) 0 8%,rgba(255,255,255,.15) 8% 10%,#f4eee5 10% 100%);
+  box-shadow:3px 5px 10px rgba(55,42,31,.13);display:grid;place-items:center;padding:4px;
+}
+.simple-book:after{content:'';position:absolute;inset:7px 6px 7px 10px;border:1px solid rgba(70,56,46,.12);border-radius:2px 7px 7px 2px;pointer-events:none}
+.simple-book span{font-family:Georgia,'Times New Roman',serif;font-size:clamp(12px,3vw,17px);letter-spacing:.02em;color:#49413b;margin:0}
+.simple-book:hover,.simple-book:focus-visible{transform:translateY(-2px);outline:2px solid rgba(239,79,145,.52);outline-offset:2px}
+@media(max-width:420px){.simple-shelf{gap:10px 7px}.simple-book span{font-size:12px}}

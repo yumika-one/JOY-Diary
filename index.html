@@ -562,6 +562,64 @@ body{background:#ece8e2}
 .cover-wash .book-mark{background:rgba(255,250,242,.75);width:64%;height:32%;left:19%;top:24%;transform:rotate(-2deg)}
 @media(max-width:420px){.life-shelf{gap:18px 6px;background:repeating-linear-gradient(to bottom,transparent 0 112px,rgba(125,78,43,.12) 112px 118px,rgba(113,68,36,.30) 118px 125px,transparent 125px 143px)}.life-book{height:96px}.size-small{height:82px}.size-medium{height:92px}.size-tall{height:106px}.size-wide{height:88px}.book-date{font-size:11px;min-width:36px}.final-question{padding-bottom:185px}.lovely-reveal{right:12px;bottom:18px;width:132px}.lovely-reveal img{width:86px}.lovely-reveal p{font-size:12px}}
 
+
+/* v0.16 — image-based JOY Library */
+.library-panel{
+  max-width:560px;
+  padding:16px 8px 22px;
+  background:#fff;
+}
+.library-panel .phead,
+.library-panel .shelf-intro{
+  padding-left:12px;
+  padding-right:12px;
+}
+.library-art{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  border-radius:14px;
+  background:#faf7f1;
+  box-shadow:0 14px 35px rgba(70,47,31,.10);
+}
+.library-art-image{
+  display:block;
+  width:100%;
+  height:auto;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.library-hotspots{
+  position:absolute;
+  inset:0;
+}
+.library-hotspot{
+  position:absolute;
+  border:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+  border-radius:8px;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.library-hotspot:hover{
+  background:rgba(255,255,255,.10);
+  box-shadow:0 0 0 2px rgba(239,79,145,.32);
+}
+.library-hotspot:focus-visible{
+  outline:3px solid #ef4f91;
+  outline-offset:2px;
+  background:rgba(255,255,255,.12);
+}
+.library-hotspot:active{
+  background:rgba(239,79,145,.10);
+}
+@media(max-width:420px){
+  .library-panel{padding-left:5px;padding-right:5px}
+  .library-art{border-radius:10px}
+}
+
 </style>
 </head>
 <body>
@@ -584,7 +642,7 @@ body{background:#ece8e2}
 <div class="toast" id="toast">受け取りました。</div>
 
 <script>
-const VERSION="20260730-v15";
+const VERSION="20260730-v16";
 const START=new Date("2026-07-31T00:00:00");
 const END=new Date("2026-09-12T23:59:59");
 const prompts=[
@@ -824,29 +882,57 @@ function show(i){
 }
 function shelfBuild(){
   const dailyPages=[...document.querySelectorAll('.page[data-date]')];
-  shelf.innerHTML='<div class="life-shelf" aria-label="45日分の本棚"></div>';
-  const grid=shelf.querySelector('.life-shelf');
-  const coverTypes=['paint','tape','doodle','paper','confetti','wash'];
-  const sizes=['small','medium','tall','medium','wide'];
-  dailyPages.forEach((page,i)=>{
-    const ds=page.dataset.date;
-    const [,m,d]=ds.split('-').map(Number);
-    const b=document.createElement('button');
-    b.type='button';
-    const type=coverTypes[(i*5+2)%coverTypes.length];
-    const size=sizes[(i*3+1)%sizes.length];
-    const tilt=((i*7)%9)-4;
-    b.className=`life-book cover-${type} size-${size}`;
-    b.style.setProperty('--tilt',`${tilt}deg`);
-    b.style.setProperty('--delay',`${(i%7)*-0.13}s`);
-    b.innerHTML=`<span class="book-date">${m}/${d}</span><span class="book-mark" aria-hidden="true"></span>`;
-    b.setAttribute('aria-label',`${m}月${d}日を開く`);
-    b.addEventListener('click',()=>{
-      const index=[...document.querySelectorAll('.page')].indexOf(page);
-      show(index);
-      shelfOverlay.classList.remove('open');
+
+  shelf.innerHTML=`
+    <img class="library-art-image"
+         src="./assets/ui/library.webp?v=16"
+         alt="日付ごとに異なるデザインの本が木の棚に並ぶJOY Diaryの本棚">
+    <div class="library-hotspots" aria-label="日付を選んで開く"></div>
+  `;
+
+  const layer=shelf.querySelector('.library-hotspots');
+
+  /*
+    Approved artwork layout:
+    first row = 4 books, following rows = 5 books.
+    Coordinates are percentages of the full image, so they remain aligned
+    on desktop and mobile without distorting the artwork.
+  */
+  const rows=[
+    {top:5.6, height:12.9, lefts:[19.0,34.1,49.3,64.7], width:13.2},
+    {top:19.0,height:10.7,lefts:[13.2,28.0,42.8,57.7,72.5],width:12.2},
+    {top:30.2,height:10.6,lefts:[12.7,27.6,42.4,57.3,72.2],width:12.4},
+    {top:41.4,height:10.3,lefts:[13.2,28.0,42.9,57.8,72.7],width:12.2},
+    {top:52.4,height:9.8, lefts:[12.2,27.2,42.1,57.0,71.9],width:12.5},
+    {top:62.5,height:9.2, lefts:[12.0,27.0,42.0,56.9,71.8],width:12.5},
+    {top:72.1,height:8.8, lefts:[12.3,27.2,42.1,57.0,71.9],width:12.4},
+    {top:81.1,height:8.0, lefts:[12.2,27.2,42.1,57.0,71.9],width:12.4},
+    {top:90.2,height:7.4, lefts:[12.0,27.0,42.0,56.9,71.8],width:12.5}
+  ];
+
+  let itemIndex=0;
+  rows.forEach(row=>{
+    row.lefts.forEach(left=>{
+      const page=dailyPages[itemIndex];
+      if(!page) return;
+      const ds=page.dataset.date;
+      const [,m,d]=ds.split('-').map(Number);
+      const button=document.createElement('button');
+      button.type='button';
+      button.className='library-hotspot';
+      button.style.left=`${left}%`;
+      button.style.top=`${row.top}%`;
+      button.style.width=`${row.width}%`;
+      button.style.height=`${row.height}%`;
+      button.setAttribute('aria-label',`${m}月${d}日の本を開く`);
+      button.addEventListener('click',()=>{
+        const index=[...document.querySelectorAll('.page')].indexOf(page);
+        show(index);
+        shelfOverlay.classList.remove('open');
+      });
+      layer.appendChild(button);
+      itemIndex++;
     });
-    grid.appendChild(b);
   });
 }
 prev.onclick=()=>show(current-1);
@@ -857,7 +943,7 @@ document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".overlay
 previewDate.onchange=()=>{build();show(Math.min(current,max()))};
 reset.onclick=()=>{if(confirm("この端末に保存した入力をすべて消しますか？")){localStorage.removeItem(storageKey);localStorage.removeItem("joyPage_"+VERSION);location.reload()}};
 build();show(current);
-if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v15"));
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v16"));
 
 // v0.6 interactions
 function openCurrentToday(){

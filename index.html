@@ -690,7 +690,7 @@ body{background:#ece8e2}
 <div class="lock-toast" id="lockToast">このページは、その日のお楽しみです 🔒</div>
 
 <script>
-const VERSION="20260730-v17.2";
+const VERSION="20260730-v17.4";
 const START=new Date("2026-07-31T00:00:00");
 const END=new Date("2026-09-12T23:59:59");
 const prompts=[
@@ -782,18 +782,52 @@ function journey(){
       ${stop("2026-07-31","7月31日","準備を楽しむ最後の1日","「まだ始まっていない」を体験できる、最後の日。")}
 
       <div class="chapter">JOY RETREAT</div>
-      ${stop("2026-08-01","8月1日 · DAY 1","委ねて味わうを体験する1日")}
-      ${stop("2026-08-02","8月2日 · DAY 2","JOYの幅を体験する1日")}
-      ${stop("2026-08-03","8月3日 · DAY 3","今の自分で人生を意図する1日")}
+      ${stop("2026-08-01","8月1日","JOY RETREAT Day1","委ねて味わうを体験する1日")}
+      ${stop("2026-08-02","8月2日","JOY RETREAT Day2","JOYの幅を体験する1日")}
+      ${stop("2026-08-03","8月3日","JOY RETREAT Day3","今の自分で人生を意図する1日")}
 
       <div class="chapter">AFTER THE RETREAT</div>
-      ${stop("2026-08-04","DAY 1","余韻に浸る1日目")}
-      ${stop("2026-08-05","DAY 2","余韻に浸る2日目")}
-      ${stop("2026-08-06","DAY 3","余韻に浸る3日目")}
+      ${stop("2026-08-04","8月4日","余韻に浸る Day1")}
+      ${stop("2026-08-05","8月5日","余韻に浸る Day2")}
+      ${stop("2026-08-06","8月6日","余韻に浸る Day3")}
+      ${stop("2026-08-07","8月7日","余韻に浸る Day4")}
       ${stop("2026-08-08","8月8日","JOY Meeting②","リトリートから1週間。<br>今感じている震えと気づきを受け取る日。","meeting")}
 
       <div class="chapter">JOY IN EVERYDAY LIFE</div>
-      ${stop("2026-08-09","8月9日〜","JOYを日常に育てる","リトリートで受け取った心地よさを、日常の中でさらに育てていく。")}
+      ${stop("2026-08-09","8月9日","JOYを日常に育てる")}
+      ${stop("2026-08-10","8月10日","JOYを日常に育てる")}
+      ${stop("2026-08-11","8月11日","JOYを日常に育てる")}
+      ${stop("2026-08-12","8月12日","JOYを日常に育てる")}
+      ${stop("2026-08-13","8月13日","JOYを日常に育てる")}
+      ${stop("2026-08-14","8月14日","JOYを日常に育てる")}
+      ${stop("2026-08-15","8月15日","JOYを日常に育てる")}
+      ${stop("2026-08-16","8月16日","JOYを日常に育てる")}
+      ${stop("2026-08-17","8月17日","JOYを日常に育てる")}
+      ${stop("2026-08-18","8月18日","JOYを日常に育てる")}
+      ${stop("2026-08-19","8月19日","JOYを日常に育てる")}
+      ${stop("2026-08-20","8月20日","JOYを日常に育てる")}
+      ${stop("2026-08-21","8月21日","JOYを日常に育てる")}
+      ${stop("2026-08-22","8月22日","JOYを日常に育てる")}
+      ${stop("2026-08-23","8月23日","JOYを日常に育てる")}
+      ${stop("2026-08-24","8月24日","JOYを日常に育てる")}
+      ${stop("2026-08-25","8月25日","JOYを日常に育てる")}
+      ${stop("2026-08-26","8月26日","JOYを日常に育てる")}
+      ${stop("2026-08-27","8月27日","JOYを日常に育てる")}
+      ${stop("2026-08-28","8月28日","JOYを日常に育てる")}
+      ${stop("2026-08-29","8月29日","JOYを日常に育てる")}
+      ${stop("2026-08-30","8月30日","JOYを日常に育てる")}
+      ${stop("2026-08-31","8月31日","JOYを日常に育てる")}
+      ${stop("2026-09-01","9月1日","JOYを日常に育てる")}
+      ${stop("2026-09-02","9月2日","JOYを日常に育てる")}
+      ${stop("2026-09-03","9月3日","JOYを日常に育てる")}
+      ${stop("2026-09-04","9月4日","JOYを日常に育てる")}
+      ${stop("2026-09-05","9月5日","JOYを日常に育てる")}
+      ${stop("2026-09-06","9月6日","JOYを日常に育てる")}
+      ${stop("2026-09-07","9月7日","JOYを日常に育てる")}
+      ${stop("2026-09-08","9月8日","JOYを日常に育てる")}
+      ${stop("2026-09-09","9月9日","JOYを日常に育てる")}
+      ${stop("2026-09-10","9月10日","JOYを日常に育てる")}
+      ${stop("2026-09-11","9月11日","JOYを日常に育てる")}
       ${stop("2026-09-12","9月12日","今思うあなたにとっての人生とは？","この旅の今を、自分の言葉で受け取る日。","meeting")}
     </div>
   </div></article>`}
@@ -882,7 +916,7 @@ return `<article class="page final-page"><div class="final-layout">
     <div class="field">${field("final","今のあなたの言葉で。")}</div>
     <button class="pill cover-start intent-button" id="meetYourself">意図する</button>
     <div class="lovely-reveal" id="lovelyReveal" aria-live="polite">
-      <img src="./assets/ui/lovely-final.webp?v=172" alt="絵筆を持ったラブリーくん">
+      <img src="./assets/ui/lovely-final.webp?v=174" alt="絵筆を持ったラブリーくん">
       <p class="lovely-handwriting" aria-label="いってらっしゃい。"><span>い</span><span>っ</span><span>て</span><span>ら</span><span>っ</span><span>し</span><span>ゃ</span><span>い</span><span>。</span></p>
     </div>
   </div>
@@ -961,7 +995,7 @@ function shelfBuild(){
 
   shelf.innerHTML=`
     <img class="library-art-image"
-         src="./assets/ui/library.webp?v=172"
+         src="./assets/ui/library.webp?v=174"
          alt="日付ごとに異なるデザインの本が木の棚に並ぶJOY Diaryの本棚">
     <div class="library-hotspots" aria-label="日付を選んで開く"></div>
   `;
@@ -1035,7 +1069,7 @@ if(!show(current,{silent:true})){
   current=0;
   show(0,{silent:true});
 }
-if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v172"));
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v174"));
 
 // v0.6 interactions
 function openJourneyDate(dateString){

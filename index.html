@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f4eee4">
-<link rel="manifest" href="./manifest.webmanifest?v=v15">
-<title>JOY Diary · v0.15</title>
+<link rel="manifest" href="./manifest.webmanifest?v=v17">
+<title>JOY Diary · v0.17</title>
 <style>
 :root{
   --paper:#fffaf1;--paper-deep:#f5ecdf;--ink:#342d27;--muted:#786f66;
@@ -620,6 +620,40 @@ body{background:#ece8e2}
   .library-art{border-radius:10px}
 }
 
+
+/* v0.17 */
+.lovely-reveal p{
+  font-family:"Segoe Print","Bradley Hand","Comic Sans MS","Klee One","Yu Gothic",cursive;
+  font-size:15px;font-weight:400;letter-spacing:.08em;
+  transform:rotate(-3deg);margin-top:2px
+}
+.journey-today-action{
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-top:15px;min-width:180px;border:1.5px solid #ec6f9f;
+  color:#d94c84;background:rgba(255,255,255,.78);
+  box-shadow:0 8px 18px rgba(216,76,132,.10)
+}
+.library-hotspot.is-locked{
+  cursor:not-allowed;background:rgba(255,255,255,.34);box-shadow:none
+}
+.library-hotspot.is-locked::after{
+  content:"🔒";position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);display:grid;place-items:center;
+  width:31px;height:31px;border-radius:50%;
+  background:rgba(255,255,255,.88);
+  box-shadow:0 5px 13px rgba(38,29,23,.18);font-size:15px
+}
+.library-hotspot.is-locked:hover{background:rgba(255,255,255,.34);box-shadow:none}
+.stop.future{opacity:.46}
+.stop.future::after{content:"🔒";display:inline-block;margin-top:6px;font-size:12px}
+.lock-toast{
+  position:fixed;z-index:80;left:50%;bottom:92px;transform:translateX(-50%);
+  display:none;max-width:min(360px,calc(100vw - 34px));padding:11px 17px;
+  border-radius:999px;background:rgba(52,45,39,.94);color:#fff;
+  text-align:center;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.22)
+}
+.lock-toast.show{display:block}
+
 </style>
 </head>
 <body>
@@ -640,9 +674,10 @@ body{background:#ece8e2}
 <div class="overlay" id="shelfOverlay"><div class="panel library-panel"><div class="phead"><h3>あなたの本棚</h3><button class="round close">×</button></div><p class="shelf-intro">いろんな日が、いろんな本になって並んでいます。気になる一冊を開いてみてください。</p><div class="library-art" id="shelf" aria-label="45日分の本棚"></div></div></div>
 <div class="overlay" id="settingsOverlay"><div class="panel" style="max-width:560px"><div class="phead"><h3>設定</h3><button class="round close">×</button></div><div class="settings"><div class="badge">REVIEW MODE · 全ページ開放</div><label>プレビュー日</label><input type="date" id="previewDate"><p class="body">レビュー版では、すべてのページを開けます。プレビュー日を変えると、その日を「今日」としてJourneyの現在地を確認できます。</p></div><div class="settings"><button class="pill" id="reset">この端末の入力をリセット</button></div></div></div>
 <div class="toast" id="toast">受け取りました。</div>
+<div class="lock-toast" id="lockToast">このページは、その日のお楽しみです 🔒</div>
 
 <script>
-const VERSION="20260730-v16";
+const VERSION="20260730-v17";
 const START=new Date("2026-07-31T00:00:00");
 const END=new Date("2026-09-12T23:59:59");
 const prompts=[
@@ -728,6 +763,9 @@ function journey(){
       <div class="progress-label">JOURNEY PROGRESS</div>
       <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
       <p class="progress-copy">${currentText}</p>
+      ${n>=journeyStart && n<=END
+        ? '<button class="pill journey-today-action" type="button" data-goto-today="1">今日の意図を書く →</button>'
+        : ''}
     </div>
     <div class="timeline">
       <div class="chapter">PREPARATION</div>
@@ -868,24 +906,52 @@ function save(){
   window.toastTimer=setTimeout(()=>toast.style.display="none",700);
 }
 function now(){return previewDate.value?new Date(previewDate.value+"T23:59:59"):new Date()}
+function todayStart(){
+  const n=now();
+  return new Date(n.getFullYear(),n.getMonth(),n.getDate());
+}
+function isFutureDate(dateString){
+  return new Date(dateString+"T00:00:00")>todayStart();
+}
+function isPageLocked(page){
+  if(!page) return false;
+  if(page.dataset.date) return isFutureDate(page.dataset.date);
+  if(page.classList.contains("final-page")) return todayStart()<new Date("2026-09-12T00:00:00");
+  return false;
+}
+let lockToastTimer;
+function showLockMessage(){
+  const el=document.getElementById("lockToast");
+  if(!el) return;
+  el.classList.add("show");
+  clearTimeout(lockToastTimer);
+  lockToastTimer=setTimeout(()=>el.classList.remove("show"),1500);
+}
 function max(){
   return document.querySelectorAll(".page").length-1;
 }
-function show(i){
+function show(i,{silent=false}={}){
   const all=[...document.querySelectorAll(".page")];
-  current=Math.max(0,Math.min(i,max()));
+  const requested=Math.max(0,Math.min(i,max()));
+  if(isPageLocked(all[requested])){
+    if(!silent) showLockMessage();
+    return false;
+  }
+  current=requested;
   all.forEach((p,n)=>p.classList.toggle("active",n===current));
-  prev.disabled=current===0;next.disabled=current===max();
+  prev.disabled=current===0;
+  next.disabled=current===max() || isPageLocked(all[current+1]);
   num.textContent=`${current+1} / ${all.length}`;
   localStorage.setItem("joyPage_"+VERSION,current);
   window.scrollTo({top:0,behavior:"smooth"});
+  return true;
 }
 function shelfBuild(){
   const dailyPages=[...document.querySelectorAll('.page[data-date]')];
 
   shelf.innerHTML=`
     <img class="library-art-image"
-         src="./assets/ui/library.webp?v=16"
+         src="./assets/ui/library.webp?v=17"
          alt="日付ごとに異なるデザインの本が木の棚に並ぶJOY Diaryの本棚">
     <div class="library-hotspots" aria-label="日付を選んで開く"></div>
   `;
@@ -924,8 +990,13 @@ function shelfBuild(){
       button.style.top=`${row.top}%`;
       button.style.width=`${row.width}%`;
       button.style.height=`${row.height}%`;
-      button.setAttribute('aria-label',`${m}月${d}日の本を開く`);
+      const locked=isPageLocked(page);
+      button.setAttribute('aria-label',locked
+        ? `${m}月${d}日の本はまだ開けません`
+        : `${m}月${d}日の本を開く`);
+      if(locked) button.classList.add("is-locked");
       button.addEventListener('click',()=>{
+        if(locked){showLockMessage();return}
         const index=[...document.querySelectorAll('.page')].indexOf(page);
         show(index);
         shelfOverlay.classList.remove('open');
@@ -942,8 +1013,19 @@ settingsBtn.onclick=()=>settingsOverlay.classList.add("open");
 document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".overlay").classList.remove("open"));
 previewDate.onchange=()=>{build();show(Math.min(current,max()))};
 reset.onclick=()=>{if(confirm("この端末に保存した入力をすべて消しますか？")){localStorage.removeItem(storageKey);localStorage.removeItem("joyPage_"+VERSION);location.reload()}};
-build();show(current);
-if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v16"));
+build();
+const visitDayKey="joyLastVisitDay_"+VERSION;
+const todayKey=localDateKey(now());
+const lastVisitDay=localStorage.getItem(visitDayKey);
+if(lastVisitDay!==todayKey){
+  current=0;
+  localStorage.setItem(visitDayKey,todayKey);
+}
+if(!show(current,{silent:true})){
+  current=0;
+  show(0,{silent:true});
+}
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v17"));
 
 // v0.6 interactions
 function openCurrentToday(){

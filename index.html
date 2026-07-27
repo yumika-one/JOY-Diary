@@ -627,12 +627,7 @@ body{background:#ece8e2}
   font-size:15px;font-weight:400;letter-spacing:.08em;
   transform:rotate(-3deg);margin-top:2px
 }
-.journey-today-action{
-  display:inline-flex;align-items:center;justify-content:center;
-  margin-top:15px;min-width:180px;border:1.5px solid #ec6f9f;
-  color:#d94c84;background:rgba(255,255,255,.78);
-  box-shadow:0 8px 18px rgba(216,76,132,.10)
-}
+
 .library-hotspot.is-locked{
   cursor:not-allowed;background:rgba(255,255,255,.34);box-shadow:none
 }
@@ -653,6 +648,24 @@ body{background:#ece8e2}
   text-align:center;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.22)
 }
 .lock-toast.show{display:block}
+
+
+/* v0.17.2 */
+.lovely-reveal .lovely-handwriting{
+  display:flex;justify-content:center;align-items:flex-end;gap:.015em;white-space:nowrap;
+  font-family:"UD Digi Kyokasho NK-R","UD デジタル 教科書体 N-R",
+              "Yu Kyokasho","游教科書体","HGP行書体","HG行書体",
+              "Klee","Klee One","Segoe Print",cursive !important;
+  font-size:13px !important;font-weight:400 !important;letter-spacing:0 !important;
+  line-height:1.15;color:#4f4640;margin:0 0 5px;transform:rotate(-4deg)
+}
+.lovely-handwriting span{display:inline-block}
+.lovely-handwriting span:nth-child(2n){transform:translateY(1px) rotate(4deg)}
+.lovely-handwriting span:nth-child(3n){transform:translateY(-1px) rotate(-5deg)}
+.lovely-handwriting span:nth-child(5n){transform:translateY(1.5px) rotate(2deg)}
+.stop[role="button"]{cursor:pointer}
+.stop[role="button"]:focus-visible{outline:2px dashed rgba(214,54,120,.65);outline-offset:5px}
+@media(max-width:420px){.lovely-reveal .lovely-handwriting{font-size:12px !important}}
 
 </style>
 </head>
@@ -677,7 +690,7 @@ body{background:#ece8e2}
 <div class="lock-toast" id="lockToast">このページは、その日のお楽しみです 🔒</div>
 
 <script>
-const VERSION="20260730-v17";
+const VERSION="20260730-v17.2";
 const START=new Date("2026-07-31T00:00:00");
 const END=new Date("2026-09-12T23:59:59");
 const prompts=[
@@ -753,19 +766,16 @@ function journey(){
     const d0=new Date(n.getFullYear(),n.getMonth(),n.getDate());
     const t0=new Date(target.getFullYear(),target.getMonth(),target.getDate());
     const stateClass=d0>t0?"past":d0<t0?"future":"current";
-    const action=stateClass==="current" ? ` role="button" tabindex="0" data-goto-today="1" title="今日のページを開く"` : "";
+    const action=` role="button" tabindex="0" data-journey-date="${date}" title="${dateLabel}の意図のページを開く"`;
     return `<div class="stop ${cls} ${stateClass}"${action}><div class="stop-date">${dateLabel}${stateClass==="current"?'<span class="now-tag">今ここ</span>':""}</div><div class="stop-title">${title}</div>${copy?`<p class="stop-copy">${copy}</p>`:""}</div>`;
   };
   return `<article class="page journey-page"><div class="journey-wrap">
-    <div class="eyebrow">YOUR JOURNEY</div><h2>この旅の、今いる場所。</h2>
+    <div class="eyebrow">YOUR JOURNEY</div><h2>この旅の今いる場所</h2>
     <p class="body">これは予定をこなすための一覧ではなく、今日を意図して歩くための旅のしおりです。</p>
     <div class="progress-card">
       <div class="progress-label">JOURNEY PROGRESS</div>
       <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
       <p class="progress-copy">${currentText}</p>
-      ${n>=journeyStart && n<=END
-        ? '<button class="pill journey-today-action" type="button" data-goto-today="1">今日の意図を書く →</button>'
-        : ''}
     </div>
     <div class="timeline">
       <div class="chapter">PREPARATION</div>
@@ -872,8 +882,8 @@ return `<article class="page final-page"><div class="final-layout">
     <div class="field">${field("final","今のあなたの言葉で。")}</div>
     <button class="pill cover-start intent-button" id="meetYourself">意図する</button>
     <div class="lovely-reveal" id="lovelyReveal" aria-live="polite">
-      <img src="./assets/ui/lovely-final.webp?v=15" alt="絵筆を持ったラブリーくん">
-      <p>いってらっしゃい。</p>
+      <img src="./assets/ui/lovely-final.webp?v=172" alt="絵筆を持ったラブリーくん">
+      <p class="lovely-handwriting" aria-label="いってらっしゃい。"><span>い</span><span>っ</span><span>て</span><span>ら</span><span>っ</span><span>し</span><span>ゃ</span><span>い</span><span>。</span></p>
     </div>
   </div>
 </div></article>`}
@@ -951,7 +961,7 @@ function shelfBuild(){
 
   shelf.innerHTML=`
     <img class="library-art-image"
-         src="./assets/ui/library.webp?v=17"
+         src="./assets/ui/library.webp?v=172"
          alt="日付ごとに異なるデザインの本が木の棚に並ぶJOY Diaryの本棚">
     <div class="library-hotspots" aria-label="日付を選んで開く"></div>
   `;
@@ -1025,23 +1035,24 @@ if(!show(current,{silent:true})){
   current=0;
   show(0,{silent:true});
 }
-if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v17"));
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=v172"));
 
 // v0.6 interactions
-function openCurrentToday(){
-  const n=now();
-  const pageCount=document.querySelectorAll(".page").length;
-  let idx=3+Math.floor((n-START)/86400000);
-  idx=Math.max(3,Math.min(pageCount-2,idx));
-  show(idx);
+function openJourneyDate(dateString){
+  const page=document.querySelector(`.page[data-date="${dateString}"]`);
+  if(!page) return;
+  const index=[...document.querySelectorAll(".page")].indexOf(page);
+  show(index);
 }
 document.addEventListener("click",(e)=>{
-  const stop=e.target.closest?.("[data-goto-today]");
-  if(stop) openCurrentToday();
+  const stop=e.target.closest?.("[data-journey-date]");
+  if(stop) openJourneyDate(stop.dataset.journeyDate);
 });
 document.addEventListener("keydown",(e)=>{
-  if((e.key==="Enter"||e.key===" ") && e.target.matches?.("[data-goto-today]")){
-    e.preventDefault(); openCurrentToday();
+  const stop=e.target.closest?.("[data-journey-date]");
+  if(stop && (e.key==="Enter"||e.key===" ")){
+    e.preventDefault();
+    openJourneyDate(stop.dataset.journeyDate);
   }
 });
 let saveToastTimer;

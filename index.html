@@ -907,7 +907,7 @@ function save(){
 }
 function now(){return previewDate.value?new Date(previewDate.value+"T23:59:59"):new Date()}
 function todayStart(){
-  const n=now();
+  const n=now(); // previewDate already affects now()
   return new Date(n.getFullYear(),n.getMonth(),n.getDate());
 }
 function isFutureDate(dateString){

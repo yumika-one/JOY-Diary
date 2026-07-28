@@ -1,6 +1,7 @@
-const CACHE='joy-diary-v0174-full-journey';
+const CACHE='joy-diary-v0175-home-icon';
 const ASSETS=[
   './','./index.html','./manifest.webmanifest','./css/style.css','./js/app.js',
+  './assets/icons/apple-touch-icon.png?v=175','./assets/icons/icon-192.png?v=175','./assets/icons/icon-512.png?v=175','./assets/icons/icon-maskable-512.png?v=175',
   './assets/ui/cover.webp?v=15','./assets/ui/opening.webp?v=15',
   './assets/ui/journey-top.webp?v=15','./assets/ui/journey-center.webp?v=15','./assets/ui/journey-bottom.webp?v=15',
   './assets/ui/daily.webp?v=15','./assets/ui/lovely-final.webp?v=174','./assets/ui/library.webp?v=174'
